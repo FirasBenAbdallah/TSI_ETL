@@ -6,12 +6,10 @@ namespace TSI_ERP_ETL.TableUtilities
     {
         public static async Task TruncateTable(string connectionString, string table)
         {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                await connection.OpenAsync();
-                var truncateCommand = new SqlCommand($"TRUNCATE TABLE {table}", connection);
-                await truncateCommand.ExecuteNonQueryAsync();
-            }
+            using var connection = new SqlConnection(connectionString);
+            await connection.OpenAsync();
+            var truncateCommand = new SqlCommand($"TRUNCATE TABLE {table}", connection);
+            await truncateCommand.ExecuteNonQueryAsync();
         }
     }
 }

@@ -5,7 +5,7 @@ namespace TSI_ERP_ETL.ETL.Devise
 {
     public class DeviseProcess
     {
-        public static async Task ProcessDataAsync()
+        public static async Task ProcessDeviseAsync()
         {
             // Build configuration from appsettings.json
             IConfiguration configuration = new ConfigurationBuilder()
@@ -17,7 +17,7 @@ namespace TSI_ERP_ETL.ETL.Devise
             var erpApiClient = new ErpApiClient(configuration);
 
             // Connection string to the database
-            string connectionString = "Data Source=FIRASBA;Initial Catalog=ETL;Integrated Security=True;";
+            string connectionString = erpApiClient.DbConnection!;
 
             // Use the BaseUrl from erpApiClient instance
             string apiUrl = erpApiClient.BaseUrl!;
@@ -29,7 +29,7 @@ namespace TSI_ERP_ETL.ETL.Devise
             await TableTruncate.TruncateTable(connectionString, "devise");
 
             // Extracy data from the API endpoint
-            var extractedData = await DeviseExtract.ExtractDataAsync(apiUrl, loginUrl);
+            var extractedData = await DeviseExtract.ExtractDeviseAsync(apiUrl, loginUrl);
 
             // Transform the data before loading it into the database
             var transformedData = DeviseTransform.TransformData(extractedData);

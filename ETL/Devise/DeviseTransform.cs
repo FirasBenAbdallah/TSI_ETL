@@ -9,8 +9,6 @@ namespace TSI_ERP_ETL.ETL.Devise
             double? sumNombreDevises = 0;
             foreach (var item in data)
             {
-                //item.NumeroDevise *= 2.33;
-                Console.WriteLine($"Numero Devise : {item.NumeroDevise}");
                 item.LibelleDevise += " Devise";
             }
             sumNombreDevises = data.Sum(item => item.NumeroDevise);

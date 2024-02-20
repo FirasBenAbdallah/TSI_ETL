@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TSI_ERP_ETL.Models;
 
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
-    internal class VdocumentDetailTransform
+    public class VdocumentDetailTransform
     {
+        public static IEnumerable<VdocumentDetailModel> TransformVdocumentDetail(IEnumerable<VdocumentDetailModel> data)
+        {
+            decimal? sumNombreDevises = 0;
+            sumNombreDevises = data.Sum(item => item.PrixUnitaire);
+            Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevises}");
+
+            // Transform the data here
+            return data;
+        }
     }
 }

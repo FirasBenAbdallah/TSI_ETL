@@ -1,4 +1,5 @@
 ﻿using TSI_ERP_ETL.ETL.Devise;
+using TSI_ERP_ETL.ETL.VdocumentDetail;
 
 namespace TSI_ERP_ETL
 {
@@ -6,11 +7,24 @@ namespace TSI_ERP_ETL
     {
         public static async Task Main(string[] args)
         {
-            // Call the DeviseProcess.ProcessDataAsync method
-            await DeviseProcess.ProcessDataAsync();
+            try
+            {
+                // Call the DeviseProcess.ProcessDeviseAsync method
+                await DeviseProcess.ProcessDeviseAsync();
 
-            // Log the process completion message for the ETL process
-            Console.WriteLine("\nETL process completed successfully.");
+                // Call the VdocumentDetailProcess.ProcessVdocumentDetailAsync method
+                await VdocumentDetailProcess.ProcessVdocumentDetailAsync();
+
+                // Log the process completion message for the ETL process
+                Console.WriteLine("\nETL process completed successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nAn error occurred: \n{ex.Message}");
+            }
+
         }
     }
 }
+
+
