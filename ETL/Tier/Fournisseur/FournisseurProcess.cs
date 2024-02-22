@@ -33,6 +33,15 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
 
             // Extracy data from the API endpoint
             var extractedData = await TierExtract.ExtractTierAsync(apiUrl, loginUrl);
+
+            // Transform the data before loading it into the database
+            var transformedData = FournisseurTransform.TransformFournisseurData(extractedData);
+
+            // Load the data into the database
+            await FournisseurLoad.LoadDataAsync(transformedData, connectionString);
+
+            // Log the process completion message for the Devise ETL process
+            Console.WriteLine("Fournisseur ETL process completed successfully.");
         }
     }
 }
