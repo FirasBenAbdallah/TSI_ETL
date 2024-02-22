@@ -1,12 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using TSI_ERP_ETL.Models;
-using TSI_ERP_ETL.Models.GetAllPaged; // Ensure this namespace is included for access to GetAllPagedRequest and related models
+using TSI_ERP_ETL.Models.GetAllPaged;
 
 namespace TSI_ERP_ETL.ETL.Tier
 {
@@ -31,10 +27,10 @@ namespace TSI_ERP_ETL.ETL.Tier
 
                     var getAllPagedRequest = new GetAllPagedRequest
                     {
-                        //MaxResultCount = 10,
-                        //SkipCount = 0,
+                        MaxResultCount = 1,
+                        SkipCount = 0,
                         Sorting = new List<SortingByProperty>(),
-                        Filters = new List<FilterByProprety> { new("nom", "M", OperatorType.CONTAINS) },
+                        Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
                         GetAllData = false,
                         Summaries = new List<string>(),
                         TypeTier = "F",
@@ -50,7 +46,7 @@ namespace TSI_ERP_ETL.ETL.Tier
                         var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseContent);
                         string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
                         Console.WriteLine(newJson);
-                        return apiResponse!.Items!; // Adjusted line
+                        return apiResponse!.Items!;
                     }
                     else
                     {
