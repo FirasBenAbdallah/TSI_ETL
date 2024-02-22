@@ -1,4 +1,5 @@
 ﻿using TSI_ERP_ETL.ETL.Devise;
+using TSI_ERP_ETL.ETL.Document;
 using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
 
