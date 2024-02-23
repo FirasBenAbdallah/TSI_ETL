@@ -31,7 +31,8 @@ namespace TSI_ERP_ETL.ETL.Document
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
 
-                    var response = await httpClient.GetStringAsync(apiUrl + "/Document");
+                    var response = await httpClient.GetStringAsync(apiUrl + "/Document/");
+                    await Console.Out.WriteLineAsync();
                     var data = JsonConvert.DeserializeObject<List<DocumentModel>>(response);
                     return data!;
                 }
