@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TSI_ERP_ETL.Models.Document
 {
+    [Table(name: "Document")]
     public class DocumentModel
     {
+        protected DocumentModel() { }
 
         public int? VariationStock { get; set; }
         public decimal? MontantTimbre { get; set; }

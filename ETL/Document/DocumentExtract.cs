@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TSI_ERP_ETL.Models.Document;
 using TSI_ERP_ETL.Models;
+using Azure.Core;
+using TSI_ERP_ETL.Models.GetAllPaged;
 
 namespace TSI_ERP_ETL.ETL.Document
 {
@@ -31,9 +33,31 @@ namespace TSI_ERP_ETL.ETL.Document
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
 
-                    var response = await httpClient.GetStringAsync(apiUrl + "/Document");
-                    var data = JsonConvert.DeserializeObject<List<DocumentModel>>(response);
-                    return data!;
+                    var getAllPagedRequest = new GetAllPagedRequest
+                    {
+                        MaxResultCount = 1,
+                        SkipCount = 0,
+                        Sorting = new List<SortingByProperty>(),
+                        Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
+                        GetAllData = false,
+                        Summaries = new List<string>(),
+                    };
+                    var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
+
+                    var response = await httpClient.PostAsync(apiUrl + "/Document/getallpaged", requestContent);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse<DocumentModel>>(responseContent);
+                        string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
+                        //Console.WriteLine(newJson);
+                        return apiResponse!.Items!;
+                    }
+                    else
+                    {
+                        throw new Exception($"API Error : {response.StatusCode} AT {response.Headers.Date}");
+                    }
                 }
             }
             // If the login response is not successful, throw an exception

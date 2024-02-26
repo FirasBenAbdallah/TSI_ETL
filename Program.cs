@@ -12,9 +12,9 @@ namespace TSI_ERP_ETL
             try
             {
                 // Call the FournisseurProcess.ProcessFpurnisseurAsync method
-                await FournisseurProcess.ProcessFournisseurAsync();
-                await DocumentProcess.ProcessDocumentAsync();
-                
+                 await FournisseurProcess.ProcessFournisseurAsync();
+                //  await DocumentProcess.ProcessDocumentAsync();
+
                 // Call the DeviseProcess.ProcessDeviseAsync method
                 //?await DeviseProcess.ProcessDeviseAsync();
 

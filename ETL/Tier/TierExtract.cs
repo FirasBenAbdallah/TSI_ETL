@@ -43,9 +43,9 @@ namespace TSI_ERP_ETL.ETL.Tier
                     if (response.IsSuccessStatusCode)
                     {
                         var responseContent = await response.Content.ReadAsStringAsync();
-                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseContent);
+                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse<TierModel>>(responseContent);
                         string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
-                        Console.WriteLine(newJson);
+                        //Console.WriteLine(newJson);
                         return apiResponse!.Items!;
                     }
                     else

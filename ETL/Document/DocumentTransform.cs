@@ -13,7 +13,7 @@ namespace TSI_ERP_ETL.ETL.Document
         {
             decimal? sumNombreDocuments = 0;
             sumNombreDocuments = data.Sum(item => item.MontantTimbre);
-            Console.WriteLine($"The sum of NombreDevises is: {sumNombreDocuments}");
+            Console.WriteLine($"The sum of NombreDocument is: {sumNombreDocuments}");
 
             // Transform the data here
             return data;
