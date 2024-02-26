@@ -27,7 +27,7 @@ namespace TSI_ERP_ETL.ETL.Tier
 
                     var getAllPagedRequest = new GetAllPagedRequest
                     {
-                        MaxResultCount = 1,
+                        MaxResultCount = 1000,
                         SkipCount = 0,
                         Sorting = new List<SortingByProperty>(),
                         Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
@@ -45,7 +45,7 @@ namespace TSI_ERP_ETL.ETL.Tier
                         var responseContent = await response.Content.ReadAsStringAsync();
                         var apiResponse = JsonConvert.DeserializeObject<ApiResponse<TierModel>>(responseContent);
                         string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
-                        Console.WriteLine(newJson);
+                        //Console.WriteLine(newJson);
                         return apiResponse!.Items!;
                     }
                     else

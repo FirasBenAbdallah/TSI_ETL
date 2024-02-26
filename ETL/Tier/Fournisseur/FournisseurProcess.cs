@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TSI_ERP_ETL.ApiEndpoints;
+using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
 {
@@ -32,6 +33,20 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             // Use the BaseUrl from erpApiClient instance
             string apiUrl = erpApiClient.BaseUrl!;
             string loginUrl = erpApiClient.LoginUrl!;
+
+            // Check if the "Fournisseur" table exists
+            bool tableExists = await DatabaseHelper.TableExistsAsync(connectionString, "Fournisseur");
+            if (!tableExists)
+            {
+                Console.WriteLine("Table does not exist. Proceed with initialization.");
+                await TableCreate.CreateTable(connectionString, "Fournisseur", "FournisseurId uniqueidentifier PRIMARY KEY, RaisonSocial varchar(max) null");
+            }
+            else
+            {
+                Console.WriteLine("Table already exists. Skipping initialization.");
+                // Truncate the table before loading new data
+                await TableTruncate.TruncateTable(connectionString, "fournisseur");
+            }
 
             // Extract data from the API endpoint
             var extractedData = await TierExtract.ExtractTierAsync(apiUrl, loginUrl);
