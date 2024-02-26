@@ -1,13 +1,13 @@
 ﻿namespace TSI_ERP_ETL.Models
 {
-    public class DeviseModel
+    public record DeviseModel
     {
-        public int nombreDecimales { get; set; }
-        public string? uid { get; set; }
-        public string? codeDevise { get; set; }
-        public double numeroDevise { get; set; }
-        public string? libelleDevise { get; set; }
-        public int? nombreDevises { get; set; }
-        public string? compteBancaireDefaut { get; set; }
+        public int NombreDecimales { get; set; }
+        public string? Uid { get; set; }
+        public string? CodeDevise { get; set; }
+        public double NumeroDevise { get; set; }
+        public string? LibelleDevise { get; set; }
+        public int? NombreDevises { get; set; }
+        public string? CompteBancaireDefaut { get; set; }
     }
 }
