@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TSI_ERP_ETL.ApiEndpoints;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
@@ -13,7 +13,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             // Build configuration from appsettings.json
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
             // Create an instance of ErpApiClient
@@ -39,7 +39,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             if (!tableExists)
             {
                 Console.WriteLine("Table does not exist. Proceed with initialization.");
-                await TableCreate.CreateTable(connectionString, "Fournisseur", "FournisseurId uniqueidentifier PRIMARY KEY, RaisonSocial varchar(max) null");
+                await TableCreate.CreateTable(connectionString, "Fournisseur", "FournisseurId uniqueidentifier PRIMARY KEY, RaisonSocial nvarchar(max) null");
             }
             else
             {
@@ -58,17 +58,17 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             await fournisseurLoad.LoadDataAsync(transformedData);
 
             // Log the process completion message for the Fournisseur ETL process
-            Console.WriteLine("Fournisseur ETL process completed successfully.");
+            Console.WriteLine("Fournisseur ETL process completed successfully.\n");
         }
 
-        public static IServiceProvider ConfigureServices()
+        /*public static IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
 
             // Build configuration
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
             // Add DbContext with SQL Server
@@ -79,6 +79,6 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             services.AddTransient<FournisseurProcess>();
 
             return services.BuildServiceProvider();
-        }
+        }*/
     }
 }

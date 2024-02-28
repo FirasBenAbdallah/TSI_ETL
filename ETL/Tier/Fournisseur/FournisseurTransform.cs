@@ -13,7 +13,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
         {
             foreach (var item in data)
             {
-                item.RaisonSociale += " Country";
+                //item.RaisonSociale += " Country";
                 //Console.WriteLine(item.RaisonSociale);
             }
 
@@ -33,7 +33,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             {
                 sumOfList += element;
             }*/
-            Console.WriteLine($"Sum of elements in the list: {sumOfList}");
+            //Console.WriteLine($"Sum of elements in the list: {sumOfList}");
             // Transform the data here
             return data;
         }

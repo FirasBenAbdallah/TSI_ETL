@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TSI_ERP_ETL.ApiEndpoints;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.Models;
 using TSI_ERP_ETL.Models.ETLModel;
 
@@ -20,7 +20,33 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             {
                 foreach (var item in data)
                 {
-                    var fournisseur = new FournisseurETLModel { FournisseurId = item.Uid, RaisonSocial = item.RaisonSociale };
+                    await _context.Fournisseur.AddAsync(item);
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log the error or handle it as needed
+                Console.WriteLine($"An error occurred while saving the entity changes: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                }
+
+                throw;
+            }
+        }
+
+        /*public async Task LoadDataAsync(IEnumerable<TierModel> data)
+        {
+            try
+            {
+                foreach (var item in data)
+                {
+                    //var fournisseur = new FournisseurETLModel { FournisseurId = item.Uid, RaisonSocial = item.RaisonSociale };
+                    var fournisseur = new TierModel {
+                        
+                    };
                     await _context.Fournisseur.AddAsync(fournisseur);
                 }
                 await _context.SaveChangesAsync();
@@ -37,6 +63,6 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
                 // Optionally, rethrow the exception if you cannot handle it here
                 throw;
             }
-        }
+        }*/
     }
 }

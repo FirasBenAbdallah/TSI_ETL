@@ -10,7 +10,7 @@ namespace TSI_ERP_ETL.ETL.Devise
             // Build configuration from appsettings.json
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
             // Create an instance of ErpApiClient
@@ -38,7 +38,7 @@ namespace TSI_ERP_ETL.ETL.Devise
             await DeviseLoad.LoadDataAsync(transformedData, connectionString);
 
             // Log the process completion message for the Devise ETL process
-            Console.WriteLine("Devise ETL process completed successfully.");
+            Console.WriteLine("Devise ETL process completed successfully.\n");
         }
     }
 }
