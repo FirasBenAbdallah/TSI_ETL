@@ -11,7 +11,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
     {
         public static IEnumerable<TierModel> TransformFournisseurData(IEnumerable<TierModel> data)
         {
-            foreach (var item in data)
+            foreach (var item in data) 
             {
                 item.RaisonSociale += " Country";
                 //Console.WriteLine(item.RaisonSociale);

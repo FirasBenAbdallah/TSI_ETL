@@ -1,4 +1,5 @@
-﻿using TSI_ERP_ETL.ETL.Tier.Fournisseur;
+﻿using TSI_ERP_ETL.ETL.Document;
+using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 
 namespace TSI_ERP_ETL
 {
@@ -12,7 +13,7 @@ namespace TSI_ERP_ETL
 
                 // Call the FournisseurProcess.ProcessFpurnisseurAsync method
                 //await FournisseurProcess.ProcessFournisseurAsync();
-                //await DocumentProcess.ProcessDocumentAsync();
+                await DocumentProcess.ProcessDocumentAsync();
 
                 // Call the DeviseProcess.ProcessDeviseAsync method
                 //?await DeviseProcess.ProcessDeviseAsync();

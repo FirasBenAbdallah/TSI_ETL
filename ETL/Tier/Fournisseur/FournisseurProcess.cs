@@ -39,7 +39,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             if (!tableExists)
             {
                 Console.WriteLine("Table does not exist. Proceed with initialization.");
-                await TableCreate.CreateTable(connectionString, "Fournisseur", "FournisseurId uniqueidentifier PRIMARY KEY, RaisonSocial varchar(max) null");
+                await TableCreate.CreateTable(connectionString, "Fournisseur", "FournisseurId uniqueidentifier PRIMARY KEY, RaisonSocial nvarchar(max) null");
             }
             else
             {
