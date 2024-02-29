@@ -20,7 +20,7 @@ namespace TSI_ERP_ETL.Front_Api
         // GET: api/Fournisseurs
         [HttpGet]
         [Route("/GetAll")]
-        public async Task<ActionResult<IEnumerable<TierModel>>> GetFournisseurs()
+        public async Task<ActionResult<IEnumerable<FournisseurETLModel>>> GetFournisseurs()
         {
             return await _context.Fournisseur.ToListAsync();
         }

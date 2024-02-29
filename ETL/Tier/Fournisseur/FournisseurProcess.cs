@@ -61,24 +61,24 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             Console.WriteLine("Fournisseur ETL process completed successfully.\n");
         }
 
-        /*public static IServiceProvider ConfigureServices()
-        {
-            var services = new ServiceCollection();
-
-            // Build configuration
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            // Add DbContext with SQL Server
-            services.AddDbContext<ETLDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-            // Register other services
-            services.AddTransient<FournisseurProcess>();
-
-            return services.BuildServiceProvider();
-        }*/
     }
 }
+/*public static IServiceProvider ConfigureServices()
+{
+    var services = new ServiceCollection();
+
+    // Build configuration
+    IConfiguration configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+        .Build();
+
+    // Add DbContext with SQL Server
+    services.AddDbContext<ETLDbContext>(options =>
+        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+    // Register other services
+    services.AddTransient<FournisseurProcess>();
+
+    return services.BuildServiceProvider();
+}*/

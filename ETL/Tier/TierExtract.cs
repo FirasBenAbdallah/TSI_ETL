@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Models.ETLModel;
 using TSI_ERP_ETL.Models.GetAllPaged;
 
 namespace TSI_ERP_ETL.ETL.Tier

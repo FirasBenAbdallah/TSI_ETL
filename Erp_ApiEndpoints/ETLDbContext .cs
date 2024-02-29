@@ -6,8 +6,8 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
 {
     public class ETLDbContext : DbContext
     {
-        //public DbSet<FournisseurETLModel> Fournisseurs { get; set; }
-        public DbSet<TierModel> Fournisseur { get; set; }
+        public DbSet<FournisseurETLModel> Fournisseur { get; set; }
+        //public DbSet<TierModel> Fournisseur { get; set; }
         public ETLDbContext(DbContextOptions<ETLDbContext> options) : base(options) { }
 
 

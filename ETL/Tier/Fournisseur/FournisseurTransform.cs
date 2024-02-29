@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Models.ETLModel;
 
 namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
 {
@@ -13,8 +14,8 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
         {
             foreach (var item in data)
             {
-                //item.RaisonSociale += " Country";
-                //Console.WriteLine(item.RaisonSociale);
+                //item.RaisonSocial += " Country";
+                //Console.WriteLine(item.RaisonSocial);
             }
 
             List<int?> list = new List<int?>();
@@ -22,8 +23,8 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             foreach (var item in data)
             {
                 //int NumeroEtablissement = int.Parse(item.NumeroEtablissement!);
-                int? NumeroEtablissement = item.NumeroEtablissement + 1;
-                list.Add(NumeroEtablissement);
+                //int? NumeroEtablissement = item.NumeroEtablissement + 1;
+                //list.Add(NumeroEtablissement);
                 //Console.WriteLine("\n", item.NumeroEtablissement);
             }
             // Calculating the sum of elements in the 'list'
