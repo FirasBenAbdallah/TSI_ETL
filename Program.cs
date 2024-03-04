@@ -35,13 +35,13 @@ namespace TSI_ERP_ETL
                 // Call the FournisseurProcess.ProcessFpurnisseurAsync method
                 await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient);
                 //await FournisseurProcess.ProcessFournisseurAsync();
-                await DocumentProcess.ProcessDocumentAsync();
+                await DocumentProcess.ProcessDocumentAsync(Token, erpApiClient);
 
                 // Call the DeviseProcess.ProcessDeviseAsync method
                 //?await DeviseProcess.ProcessDeviseAsync();
 
                 // Call the VdocumentDetailProcess.ProcessVdocumentDetailAsync method
-                await VdocumentDetailProcess.ProcessVdocumentDetailAsync();
+                //await VdocumentDetailProcess.ProcessVdocumentDetailAsync();
 
                 // Log the process completion message for the ETL process
                 Console.WriteLine("ETL process completed successfully.\n");
