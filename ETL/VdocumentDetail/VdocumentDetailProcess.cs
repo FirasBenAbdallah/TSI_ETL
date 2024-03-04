@@ -1,42 +1,33 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
-    public class VdocumentDetailProcess 
+    public class VdocumentDetailProcess
     {
-        public static async Task ProcessVdocumentDetailAsync()
+        public static async Task ProcessVdocumentDetailAsync(string token, ErpApiClient erpApiClient)
         {
-            // Build configuration from appsettings.json
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            // Create an instance of ErpApiClient
-            var erpApiClient = new ErpApiClient(configuration);
-
-            // Connection string to the database
-            string connectionString = erpApiClient.DbConnection!;
+            // Configure DbContext
+            var optionsBuilder = new DbContextOptionsBuilder<ETLDbContext>();
+            optionsBuilder.UseSqlServer(erpApiClient.DbConnection!);
+            var context = new ETLDbContext(optionsBuilder.Options);
 
             // Use the BaseUrl from erpApiClient instance
             string apiUrl = erpApiClient.BaseUrl!;
 
-            // Use the LoginUrl from erpApiClient instance
-            string loginUrl = erpApiClient.LoginUrl!;
-
             // Truncate the table before loading new data
-            await TableTruncate.TruncateTable(connectionString, "documentDetail");
+            await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "documentDetail");
 
             // Extract data from the API endpoint
-            var extractedData = await VdocumentDetailExtract.ExtractVdocumentDetailAsync(apiUrl, loginUrl);
+            var extractedData = await VdocumentDetailExtract.ExtractVdocumentDetailAsync(apiUrl, token);
 
             // Transform the data before loading it into the database
             var transformedData = VdocumentDetailTransform.TransformVdocumentDetail(extractedData);
 
             // Load the data into the database
-            await VdocumentDetailLoad.LoadVdocumentDetailAsync(transformedData, connectionString);
+            await VdocumentDetailLoad.LoadVdocumentDetailAsync(transformedData, erpApiClient.DbConnection!);
 
             // Log the process completion message for the Devise ETL process
             Console.WriteLine("VdocumentDetail ETL process completed successfully.\n");

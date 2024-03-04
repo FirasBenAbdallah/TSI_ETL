@@ -4,7 +4,6 @@ using System.Text;
 using TSI_ERP_ETL.Models.Document;
 using TSI_ERP_ETL.Models;
 using TSI_ERP_ETL.Models.GetAllPaged;
-using Azure.Core;
 
 namespace TSI_ERP_ETL.ETL.Document
 {

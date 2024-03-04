@@ -30,8 +30,6 @@ namespace TSI_ERP_ETL.ETL.Document
 
                 // Tronquer la table avant de charger de nouvelles données
                 // Vérifier si la table "Document" existe
-
-
                 bool tableExists = await DatabaseHelper.TableExistsAsync(erpApiClient.DbConnection!, "Document");
                 if (!tableExists)
                 {
@@ -57,27 +55,6 @@ namespace TSI_ERP_ETL.ETL.Document
                 // Enregistrer le message de fin du processus ETL Document
                 Console.WriteLine("Le processus ETL Document s'est terminé avec succès.");
             }
-        }
-
-        // Méthode pour configurer les services pour l'injection de dépendances
-        public static IServiceProvider ConfigureServices()
-        {
-            var services = new ServiceCollection();
-
-            // Construire la configuration
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            // Ajouter DbContext avec SQL Server
-            services.AddDbContext<ETLDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-            // Enregistrer d'autres services
-            services.AddTransient<DocumentProcess>();
-
-            return services.BuildServiceProvider();
         }
     }
 }

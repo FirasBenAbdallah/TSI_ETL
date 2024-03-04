@@ -13,9 +13,7 @@ namespace TSI_ERP_ETL.ETL.Document
 {
     public class DocumentTransform
     {
-
-
-            public static IEnumerable<DocumentModel> TransformDocument(IEnumerable<DocumentModel> data)
+        public static IEnumerable<DocumentModel> TransformDocument(IEnumerable<DocumentModel> data)
         {
             List<string> stringList = new List<string>();
             int sumOfStringList = 0;
@@ -32,12 +30,9 @@ namespace TSI_ERP_ETL.ETL.Document
                     sumOfStringList += num;
                 }
             }
-            
+
             // Affichage de la somme des NumeroFactureOrigine
             Console.WriteLine($"Sum of elements in the Document list: {sumOfStringList}");
-
-
-
 
             //ApiResponse<DocumentModel> apiResponse = new ApiResponse<DocumentModel>
             //{
@@ -50,9 +45,9 @@ namespace TSI_ERP_ETL.ETL.Document
             //int? totalCount = apiResponse.TotalCount;
 
             // Afficher la valeur de TotalCount
-           // Console.WriteLine($"TotalCount dans la classe Document : {totalCount}");
+            // Console.WriteLine($"TotalCount dans la classe Document : {totalCount}");
 
             return data;
         }
     }
-}     
+}

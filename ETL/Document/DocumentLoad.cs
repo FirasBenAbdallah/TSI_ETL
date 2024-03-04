@@ -15,7 +15,6 @@ namespace TSI_ERP_ETL.ETL.Document
         }
         public async Task LoadDocumentAsync(IEnumerable<DocumentModel> data)
         {
-
             try
             {
                 // Parcourir les données fournies
@@ -27,7 +26,6 @@ namespace TSI_ERP_ETL.ETL.Document
                     // Ajouter l'entité nouvellement créée au DbSet du contexte
                     await _context.Document.AddAsync(document);
                 }
-
 
                 // Sauvegarder les changements dans la base de données
                 await _context.SaveChangesAsync();
