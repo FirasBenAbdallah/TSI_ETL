@@ -8,54 +8,39 @@ namespace TSI_ERP_ETL.ETL.Tier
 {
     public class TierExtract
     {
-        public static async Task<List<TierModel>> ExtractTierAsync(string apiUrl, string loginUrl)
+        public static async Task<List<TierModel>> ExtractTierAsync(string apiUrl, string token)
         {
             using var httpClient = new HttpClient();
-            var loginData = new LoginRequestModel("Administrateur", "");
 
-            var loginContent = new StringContent(JsonConvert.SerializeObject(loginData), Encoding.UTF8, "application/json");
-            var loginResponse = await httpClient.PostAsync(loginUrl, loginContent);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            if (loginResponse.IsSuccessStatusCode)
+            var getAllPagedRequest = new GetAllPagedRequest
             {
-                var loginResponseContent = await loginResponse.Content.ReadAsStringAsync();
-                var tokenResponse = JsonConvert.DeserializeObject<LoginResponse>(loginResponseContent);
+                MaxResultCount = 1000,
+                SkipCount = 0,
+                Sorting = new List<SortingByProperty>(),
+                Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
+                GetAllData = false,
+                Summaries = new List<string>(),
+                TypeTier = "F",
+            };
 
-                if (tokenResponse != null && tokenResponse.Token != null)
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
+            var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
 
-                    var getAllPagedRequest = new GetAllPagedRequest
-                    {
-                        MaxResultCount = 1000,
-                        SkipCount = 0,
-                        Sorting = new List<SortingByProperty>(),
-                        Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
-                        GetAllData = false,
-                        Summaries = new List<string>(),
-                        TypeTier = "F",
-                    };
+            var response = await httpClient.PostAsync(apiUrl + "/Tier/getallpaged", requestContent);
 
-                    var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
-
-                    var response = await httpClient.PostAsync(apiUrl + "/Tier/getallpaged", requestContent);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse<TierModel>>(responseContent);
-                        string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
-                        //Console.WriteLine(newJson);
-                        return apiResponse!.Items!;
-                    }
-                    else
-                    {
-                        throw new Exception($"API Error : {response.StatusCode} AT {response.Headers.Date}");
-                    }
-                }
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<TierModel>>(responseContent);
+                string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
+                //Console.WriteLine(newJson);
+                return apiResponse!.Items!;
             }
-
-            throw new Exception($"Login Error : {loginResponse.StatusCode} AT {loginResponse.Headers.Date}");
+            else
+            {
+                throw new Exception($"API Error : {response.StatusCode} AT {response.Headers.Date}");
+            }
         }
 
     }

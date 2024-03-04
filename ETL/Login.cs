@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System.Net.Http.Headers;
 using System.Text;
-using TSI_ERP_ETL.Models.Document;
 using TSI_ERP_ETL.Models;
 
-namespace TSI_ERP_ETL.ETL.Document
+namespace TSI_ERP_ETL.ETL
 {
-    public class DocumentExtract
+    public class Login
     {
-        public static async Task<List<DocumentModel>> ExtractDocumentAsync(string apiUrl, string loginUrl)
+        public static async Task<string> GetTokenAsync(string loginUrl)
         {
             using var httpClient = new HttpClient();
             var loginData = new LoginRequestModel("Administrateur", "");
@@ -16,26 +14,21 @@ namespace TSI_ERP_ETL.ETL.Document
             var loginContent = new StringContent(JsonConvert.SerializeObject(loginData), Encoding.UTF8, "application/json");
             var loginResponse = await httpClient.PostAsync(loginUrl, loginContent);
 
-            // If the login response is successful, extract the data
+            // If the login response is successful, extract the token
             if (loginResponse.IsSuccessStatusCode)
             {
                 var loginResponseContent = await loginResponse.Content.ReadAsStringAsync();
                 var tokenResponse = JsonConvert.DeserializeObject<LoginResponse>(loginResponseContent);
 
-                // If the token is provided, extract the data
+                // If the token is provided, return it
                 if (tokenResponse != null && tokenResponse.Token != null)
                 {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
-
-                    var response = await httpClient.GetStringAsync(apiUrl + "/Document/");
-                    await Console.Out.WriteLineAsync();
-                    var data = JsonConvert.DeserializeObject<List<DocumentModel>>(response);
-                    return data!;
+                    return tokenResponse.Token;
                 }
             }
+
             // If the login response is not successful, throw an exception
-            throw new Exception("Authentication failed or token was not provided.");
+            throw new Exception($"Login Error : {loginResponse.StatusCode} AT {loginResponse.Headers.Date}");
         }
     }
 }
-
