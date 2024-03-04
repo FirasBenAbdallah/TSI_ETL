@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Text;
 using TSI_ERP_ETL.Models;
 
 namespace TSI_ERP_ETL.ETL.Devise

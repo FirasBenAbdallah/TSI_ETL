@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.Document
