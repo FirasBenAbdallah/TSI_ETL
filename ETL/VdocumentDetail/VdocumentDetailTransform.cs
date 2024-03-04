@@ -8,7 +8,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
         {
             decimal? sumNombreDevises = 0;
             sumNombreDevises = data.Sum(item => item.PrixUnitaire);
-            Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevises}");
+            //Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevises}");
 
             // Transform the data here
             return data;

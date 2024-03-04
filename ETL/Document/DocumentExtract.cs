@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using TSI_ERP_ETL.Models.Document;
 using TSI_ERP_ETL.Models;
 using TSI_ERP_ETL.Models.GetAllPaged;
