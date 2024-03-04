@@ -1,5 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using TSI_ERP_ETL.Erp_ApiEndpoints;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TSI_ERP_ETL.ApiEndpoints;
+using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.Document
@@ -8,38 +16,82 @@ namespace TSI_ERP_ETL.ETL.Document
     {
         public static async Task ProcessDocumentAsync()
         {
-            // Build configuration from appsettings.json
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            {
+                // Construire la configuration à partir du fichier appsettings.json
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
 
-            // Create an instance of ErpApiClient
-            var erpApiClient = new ErpApiClient(configuration);
+                // Créer une instance de ErpApiClient en utilisant la configuration
+                var erpApiClient = new ErpApiClient(configuration);
 
-            // Connection string to the database
-            string connectionString = erpApiClient.DbConnection!;
+                // Chaîne de connexion à la base de données
+                string connectionString = erpApiClient.DbConnection!;
 
-            // Use the BaseUrl from erpApiClient instance
-            string apiUrl = erpApiClient.BaseUrl!;
+                // Configurer DbContext
+                var optionsBuilder = new DbContextOptionsBuilder<ETLDbContext>();
+                optionsBuilder.UseSqlServer(connectionString);
+                var context = new ETLDbContext(optionsBuilder.Options);
 
-            // Use the LoginUrl from erpApiClient instance
-            string loginUrl = erpApiClient.LoginUrl!;
+                // Instancier DocumentLoad avec DbContext
+                var documentLoad = new DocumentLoad(context);
 
-            // Truncate the table before loading new data
-            await TableTruncate.TruncateTable(connectionString, "devise");
+                // Utiliser BaseUrl de l'instance erpApiClient
+                string apiUrl = erpApiClient.BaseUrl!;
+                string loginUrl = erpApiClient.LoginUrl!;
 
-            // Extracy data from the API endpoint
-            var extractedData = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
+                // Tronquer la table avant de charger de nouvelles données
+                // Vérifier si la table "Document" existe
 
-            // Transform the data before loading it into the database
-            var transformedData = DocumentTransform.TransformDocument(extractedData);
+               
+                bool tableExists = await DatabaseHelper.TableExistsAsync(connectionString, "Document");
+                if (!tableExists)
+                {
+                    Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
+                    await TableCreate.CreateTable(connectionString, "Document", "Devise uniqueidentifier PRIMARY KEY, NumDocument varchar(max) null");
+                }
+                else
+                {
+                    Console.WriteLine("La table existe déjà. Ignorer l'initialisation.");
+                    // Tronquer la table avant de charger de nouvelles données
+                    await TableTruncate.TruncateTable(connectionString, "document");
+                }
+                // Extraire les données à partir du point d'API
+                var extractedData = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
 
-            // Load the data into the database
-            await DocumentLoad.LoadDocumentAsync(transformedData, connectionString);
+                // Transformer les données avant de les charger dans la base de données
 
-            // Log the process completion message for the Devise ETL process
-            Console.WriteLine("Document ETL process completed successfully.");
+                var transformedData = DocumentTransform.TransformDocument(extractedData);
+
+                // Charger les données dans la base de données
+                await documentLoad.LoadDocumentAsync(transformedData);
+
+                // Enregistrer le message de fin du processus ETL Document
+                Console.WriteLine("Le processus ETL Document s'est terminé avec succès.");
+            }
+        }
+
+            // Méthode pour configurer les services pour l'injection de dépendances
+            public static IServiceProvider ConfigureServices()
+            {
+                var services = new ServiceCollection();
+
+                // Construire la configuration
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
+
+                // Ajouter DbContext avec SQL Server
+                services.AddDbContext<ETLDbContext>(options =>
+                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+                // Enregistrer d'autres services
+                services.AddTransient<DocumentProcess>();
+
+                return services.BuildServiceProvider();
+            }
         }
     }
-}
+    

@@ -1,6 +1,7 @@
 ﻿using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
 using TSI_ERP_ETL.ETL.Devise;
+using TSI_ERP_ETL.ETL.Document;
 using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
 
@@ -33,8 +34,11 @@ namespace TSI_ERP_ETL
                 
                 // Call the FournisseurProcess.ProcessFpurnisseurAsync method
                 await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient);
+                //await FournisseurProcess.ProcessFournisseurAsync();
+                await DocumentProcess.ProcessDocumentAsync();
 
-                // await DocumentProcess.ProcessDocumentAsync();
+                // Call the DeviseProcess.ProcessDeviseAsync method
+                //?await DeviseProcess.ProcessDeviseAsync();
 
                 // Call the VdocumentDetailProcess.ProcessVdocumentDetailAsync method
                 await VdocumentDetailProcess.ProcessVdocumentDetailAsync();
