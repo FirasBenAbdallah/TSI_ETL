@@ -1,12 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSI_ERP_ETL.ApiEndpoints;
-using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.Models.Document;
 using TSI_ERP_ETL.Models.ETLModel;
 
@@ -15,7 +8,7 @@ namespace TSI_ERP_ETL.ETL.Document
     public class DocumentLoad
     {
         private readonly ETLDbContext _context;
-        
+
         public DocumentLoad(ETLDbContext context)
         {
             _context = context;
@@ -30,7 +23,7 @@ namespace TSI_ERP_ETL.ETL.Document
                 {
                     // Créer une instance de FournisseurETLModel à partir des données TierModel
                     var document = new DocumentETLModel { Devise = item.Uid, NumDocument = item.NumDocument };
-                    
+
                     // Ajouter l'entité nouvellement créée au DbSet du contexte
                     await _context.Document.AddAsync(document);
                 }
@@ -54,9 +47,6 @@ namespace TSI_ERP_ETL.ETL.Document
                 throw;
             }
         }
-
-
-            
-        }
     }
+}
 
