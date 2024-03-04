@@ -11,11 +11,11 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
     {
         public static IEnumerable<TierModel> TransformFournisseurData(IEnumerable<TierModel> data)
         {
-            foreach (var item in data) 
-            {
-                item.RaisonSociale += " Country";
-                //Console.WriteLine(item.RaisonSociale);
-            }
+            //foreach (var item in data) 
+            //{
+            //    item.RaisonSociale += " Country";
+            //    //Console.WriteLine(item.RaisonSociale);
+            //}
 
             List<int?> list = new List<int?>();
             // Assuming 'data' is a collection of objects with a property 'Code'

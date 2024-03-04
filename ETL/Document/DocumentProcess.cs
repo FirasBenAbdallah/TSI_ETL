@@ -61,6 +61,7 @@ namespace TSI_ERP_ETL.ETL.Document
                 var extractedData = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
 
                 // Transformer les données avant de les charger dans la base de données
+
                 var transformedData = DocumentTransform.TransformDocument(extractedData);
 
                 // Charger les données dans la base de données

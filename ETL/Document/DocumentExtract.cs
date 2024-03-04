@@ -34,7 +34,7 @@ namespace TSI_ERP_ETL.ETL.Document
 
                         var getAllPagedRequest = new GetAllPagedRequest
                         {
-                            MaxResultCount = 1000,
+                            MaxResultCount = 10,
                             SkipCount = 0,
                             Sorting = new List<SortingByProperty>(),
                             Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
