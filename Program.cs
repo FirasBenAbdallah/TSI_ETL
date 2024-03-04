@@ -26,7 +26,7 @@ namespace TSI_ERP_ETL
                 // Call login method
                 string Token = await Login.GetTokenAsync(loginUrl);
 
-                // Initiate the ETL procedures
+                //! Initiate the ETL procedures
                 //?---------------------------------------------------------------
                 // Call the DeviseProcess.ProcessDeviseAsync method
                 await DeviseProcess.ProcessDeviseAsync(Token, erpApiClient);

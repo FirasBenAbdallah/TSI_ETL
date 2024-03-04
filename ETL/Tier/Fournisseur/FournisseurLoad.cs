@@ -14,7 +14,6 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             _context = context;
         }
 
-
         public async Task LoadDataAsync(IEnumerable<TierModel> data)
         {
             try
