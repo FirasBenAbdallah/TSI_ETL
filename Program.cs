@@ -1,19 +1,24 @@
-﻿using TSI_ERP_ETL.ETL.Devise;
-using TSI_ERP_ETL.ETL.Document;
-using TSI_ERP_ETL.ETL.Tier.Fournisseur;
-using TSI_ERP_ETL.ETL.VdocumentDetail;
+﻿using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 
 namespace TSI_ERP_ETL
 {
     class Program
     {
-        public static async Task Main()
+        public static async Task Main(string[] args)
         {
             try
             {
+<<<<<<< HEAD
                 // Call the FournisseurProcess.ProcessFpurnisseurAsync method
                  await FournisseurProcess.ProcessFournisseurAsync();
                 //  await DocumentProcess.ProcessDocumentAsync();
+=======
+                await FournisseurProcess.ProcessFournisseurAsync();
+
+                // Call the FournisseurProcess.ProcessFpurnisseurAsync method
+                //await FournisseurProcess.ProcessFournisseurAsync();
+                //await DocumentProcess.ProcessDocumentAsync();
+>>>>>>> 2b789c2a618334bac90f003bc968c6b26ff8c0ad
 
                 // Call the DeviseProcess.ProcessDeviseAsync method
                 //?await DeviseProcess.ProcessDeviseAsync();

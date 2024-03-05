@@ -1,25 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using TSI_ERP_ETL.ApiEndpoints;
 using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Models.ETLModel;
 
 namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
 {
     public class FournisseurLoad
     {
-        public static async Task LoadDataAsync(IEnumerable<TierModel> data, string connectionString)
+        private readonly ETLDbContext _context;
+
+        public FournisseurLoad(ETLDbContext context)
         {
-            using var connection = new SqlConnection(connectionString);
-            await connection.OpenAsync();
-            foreach (var item in data)
+            _context = context;
+        }
+
+        public async Task LoadDataAsync(IEnumerable<TierModel> data)
+        {
+            try
             {
-                var command = new SqlCommand("INSERT INTO Fournisseur (RaisonSociale) VALUES (@Value1)", connection);
-                command.Parameters.AddWithValue("@Value1", item.RaisonSociale);
-                //command.Parameters.AddWithValue("@Value2", item.LibelleDevise ?? string.Empty);
-                await command.ExecuteNonQueryAsync();
+                foreach (var item in data)
+                {
+                    var fournisseur = new FournisseurETLModel { FournisseurId = item.Uid, RaisonSocial = item.RaisonSociale };
+                    await _context.Fournisseur.AddAsync(fournisseur);
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log the error or inspect the inner exception
+                Console.WriteLine($"An error occurred while saving the entity changes: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                }
+
+                // Optionally, rethrow the exception if you cannot handle it here
+                throw;
             }
         }
     }

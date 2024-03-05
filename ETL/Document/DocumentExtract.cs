@@ -33,6 +33,7 @@ namespace TSI_ERP_ETL.ETL.Document
                 {
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
 
+<<<<<<< HEAD
                     var getAllPagedRequest = new GetAllPagedRequest
                     {
                         MaxResultCount = 1,
@@ -58,6 +59,12 @@ namespace TSI_ERP_ETL.ETL.Document
                     {
                         throw new Exception($"API Error : {response.StatusCode} AT {response.Headers.Date}");
                     }
+=======
+                    var response = await httpClient.GetStringAsync(apiUrl + "/Document/");
+                    await Console.Out.WriteLineAsync();
+                    var data = JsonConvert.DeserializeObject<List<DocumentModel>>(response);
+                    return data!;
+>>>>>>> 2b789c2a618334bac90f003bc968c6b26ff8c0ad
                 }
             }
             // If the login response is not successful, throw an exception

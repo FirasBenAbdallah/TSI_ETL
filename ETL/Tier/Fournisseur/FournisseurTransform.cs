@@ -14,7 +14,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             foreach (var item in data)
             {
                 item.RaisonSociale += " Country";
-                Console.WriteLine(item.RaisonSociale);
+                //Console.WriteLine(item.RaisonSociale);
             }
 
             List<int?> list = new List<int?>();
@@ -24,7 +24,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
                 //int NumeroEtablissement = int.Parse(item.NumeroEtablissement!);
                 int? NumeroEtablissement = item.NumeroEtablissement + 1;
                 list.Add(NumeroEtablissement);
-                Console.WriteLine("\n", item.NumeroEtablissement);
+                //Console.WriteLine("\n", item.NumeroEtablissement);
             }
             // Calculating the sum of elements in the 'list'
             int? sumOfList = 0;
