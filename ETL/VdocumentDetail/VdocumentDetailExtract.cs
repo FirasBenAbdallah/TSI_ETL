@@ -2,38 +2,54 @@
 using System.Net.Http.Headers;
 using System.Text;
 using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Models.Document;
+using TSI_ERP_ETL.Models.GetAllPaged;
+
 
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
     public class VdocumentDetailExtract
     {
-        public static async Task<List<VdocumentDetailModel>> ExtractVdocumentDetailAsync(string apiUrl, string loginUrl)
+        public static async Task<List<VdocumentDetailModel>> ExtractVdocumentDetailAsync(string apiUrl, string token)
         {
-            using var httpClient = new HttpClient();
-            var loginData = new LoginRequestModel("Administrateur", "");
+            
+                using var httpClient = new HttpClient();
 
-            var loginContent = new StringContent(JsonConvert.SerializeObject(loginData), Encoding.UTF8, "application/json");
-            var loginResponse = await httpClient.PostAsync(loginUrl, loginContent);
+                // Set the Authorization header with the token
+              
+            
 
-            // If the login response is successful, extract the data
-            if (loginResponse.IsSuccessStatusCode)
-            {
-                var loginResponseContent = await loginResponse.Content.ReadAsStringAsync();
-                var tokenResponse = JsonConvert.DeserializeObject<LoginResponse>(loginResponseContent);
+                
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                // If the token is provided, extract the data
-                if (tokenResponse != null && tokenResponse.Token != null)
-                {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
+                    var getAllPagedRequest = new GetAllPagedRequest
+                    {
+                        MaxResultCount = 10,
+                        SkipCount = 0,
+                        Sorting = new List<SortingByProperty>(),
+                        Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
+                        GetAllData = true,
+                        Summaries = new List<string>(),
+                        // TypeTier = "F",
+                    };
 
-                    var response = await httpClient.GetStringAsync(apiUrl + "/VdocumentDetail");
-                    var data = JsonConvert.DeserializeObject<List<VdocumentDetailModel>>(response);
-                    return data!;
+                    var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
+
+                    var response = await httpClient.PostAsync(apiUrl + "/VDocumentDetail/getallpaged", requestContent);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse<VdocumentDetailModel>>(responseContent);
+                        string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
+                        //Console.WriteLine(newJson);
+                        return apiResponse!.Items!;
+                    }
+                    else
+                    {
+                        throw new Exception($"API Error : {response.StatusCode} AT {response.Headers.Date}");
+                    }
                 }
             }
-
-            // If the login response is not successful, throw an exception
-            throw new Exception("Authentication failed or token was not provided.");
         }
-    }
-}

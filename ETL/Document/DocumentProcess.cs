@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL.Tier.Fournisseur;
+using TSI_ERP_ETL.ETL.VdocumentDetail;
 using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.Document
@@ -27,7 +28,6 @@ namespace TSI_ERP_ETL.ETL.Document
 
                 // Utiliser BaseUrl de l'instance erpApiClient
                 string apiUrl = erpApiClient.BaseUrl!;
-                string loginUrl = erpApiClient.LoginUrl!;
 
                 // Tronquer la table avant de charger de nouvelles données
                 // Vérifier si la table "Document" existe
@@ -37,7 +37,7 @@ namespace TSI_ERP_ETL.ETL.Document
                 if (!tableExists)
                 {
                     Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
-                    await TableCreate.CreateTable(erpApiClient.DbConnection!, "Document", "Devise uniqueidentifier PRIMARY KEY, NumDocument varchar(max) null");
+                    await TableCreate.CreateTable(erpApiClient.DbConnection!, "Document", "Devise uniqueidentifier PRIMARY KEY, MontantTtc decimal null ");
                 }
                 else
                 {
@@ -46,39 +46,21 @@ namespace TSI_ERP_ETL.ETL.Document
                     await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "document");
                 }
                 // Extraire les données à partir du point d'API
-                var extractedData = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
+                var extractedData = await DocumentExtract.ExtractDocumentAsync(apiUrl, token);
+                //var sss = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
 
                 // Transformer les données avant de les charger dans la base de données
 
                 var transformedData = DocumentTransform.TransformDocument(extractedData);
+               // var transformedDataqqq = DocumentTransform.TransformDocument(extractedData);
 
                 // Charger les données dans la base de données
                 await documentLoad.LoadDocumentAsync(transformedData);
+              //  await documentLoad.LoadDocumentAsync(transformedDataqqq);
 
                 // Enregistrer le message de fin du processus ETL Document
                 Console.WriteLine("Le processus ETL Document s'est terminé avec succès.");
             }
-        }
-
-        // Méthode pour configurer les services pour l'injection de dépendances
-        public static IServiceProvider ConfigureServices()
-        {
-            var services = new ServiceCollection();
-
-            // Construire la configuration
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
-
-            // Ajouter DbContext avec SQL Server
-            services.AddDbContext<ETLDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-
-            // Enregistrer d'autres services
-            services.AddTransient<DocumentProcess>();
-
-            return services.BuildServiceProvider();
         }
     }
 }

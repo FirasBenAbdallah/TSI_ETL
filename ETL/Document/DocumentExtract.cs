@@ -10,23 +10,12 @@ namespace TSI_ERP_ETL.ETL.Document
 {
     public class DocumentExtract
     {
-        public static async Task<List<DocumentModel>> ExtractDocumentAsync(string apiUrl, string loginUrl)
+        public static async Task<List<DocumentModel>> ExtractDocumentAsync(string apiUrl, string token)
         {
             {
                 using var httpClient = new HttpClient();
-                var loginData = new LoginRequestModel("Administrateur", "");
 
-                var loginContent = new StringContent(JsonConvert.SerializeObject(loginData), Encoding.UTF8, "application/json");
-                var loginResponse = await httpClient.PostAsync(loginUrl, loginContent);
-
-                if (loginResponse.IsSuccessStatusCode)
-                {
-                    var loginResponseContent = await loginResponse.Content.ReadAsStringAsync();
-                    var tokenResponse = JsonConvert.DeserializeObject<LoginResponse>(loginResponseContent);
-
-                    if (tokenResponse != null && tokenResponse.Token != null)
-                    {
-                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.Token);
+                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                         var getAllPagedRequest = new GetAllPagedRequest
                         {
@@ -34,7 +23,7 @@ namespace TSI_ERP_ETL.ETL.Document
                             SkipCount = 0,
                             Sorting = new List<SortingByProperty>(),
                             Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
-                            GetAllData = false,
+                            GetAllData = true,
                             Summaries = new List<string>(),
                             // TypeTier = "F",
                         };
@@ -58,9 +47,6 @@ namespace TSI_ERP_ETL.ETL.Document
                     }
                 }
 
-                throw new Exception($"Login Error : {loginResponse.StatusCode} AT {loginResponse.Headers.Date}");
             }
 
         }
-    }
-}
