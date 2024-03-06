@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.TableUtilities;
 
@@ -6,7 +7,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
 {
     public class FournisseurProcess
     {
-        public static async Task ProcessFournisseurAsync(string token, ErpApiClient erpApiClient)
+        public static async Task ProcessFournisseurAsync(string token, ErpApiClient erpApiClient, ILogger<FournisseurProcess> logger)
         {
             // Configure DbContext
             var optionsBuilder = new DbContextOptionsBuilder<ETLDbContext>();
@@ -43,7 +44,9 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             await fournisseurLoad.LoadDataAsync(transformedData);
 
             // Log the process completion message for the Fournisseur ETL process
-            Console.WriteLine("Fournisseur ETL process completed successfully.\n");
+            //Console.WriteLine("Fournisseur ETL process completed successfully.\n");
+            // Log the process completion message for the Fournisseur ETL process
+            logger.LogInformation("Fournisseur ETL process completed successfully.\n");
         }
 
     }

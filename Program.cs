@@ -15,7 +15,7 @@ namespace TSI_ERP_ETL
     {
         public static async Task Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection()
+            /*var serviceProvider = new ServiceCollection()
                 .AddLogging(builder =>
                 {
                     builder.AddConsole(options =>
@@ -24,7 +24,7 @@ namespace TSI_ERP_ETL
                     })
                     .AddConsoleFormatter<CustomConsoleFormatter, ConsoleFormatterOptions>();
                 })
-                .BuildServiceProvider();
+                .BuildServiceProvider();*/
             // Set up Dependency Injection
             /*var serviceProvider = new ServiceCollection()
                                 .AddLogging(builder => builder
@@ -34,7 +34,9 @@ namespace TSI_ERP_ETL
                                 .BuildServiceProvider();*/
 
             // Get logger from DI
+            ServiceProvider serviceProvider = Logger.Log();
             var logger = serviceProvider.GetService<ILogger<Program>>();
+            var fournisseurLogger = serviceProvider.GetService<ILogger<FournisseurProcess>>();
 
 
             try
@@ -57,11 +59,11 @@ namespace TSI_ERP_ETL
                 //! Initiate the ETL procedures
                 //---------------------------------------------------------------------------//
                 // Call the DeviseProcess.ProcessDeviseAsync method
-              
+
                 //  await DeviseProcess.ProcessDeviseAsync(Token, erpApiClient);
 
                 // Call the FournisseurProcess.ProcessFpurnisseurAsync method
-                await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient);
+                //await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient, fournisseurLogger);
 
                 //await FournisseurProcess.ProcessFournisseurAsync();
                 await DocumentProcess.ProcessDocumentAsync(Token, erpApiClient);
@@ -76,13 +78,12 @@ namespace TSI_ERP_ETL
             catch (Exception ex)
             {
                 //Console.WriteLine($"\nAn error occurred: \n{ex.Message}");
-                logger!.LogError($"An error occurred: {ex.Message}");
+                logger!.LogError("An error occurred: {ErrorMessage}", ex.Message);
             }
         }
     }
 
-
-    public class CustomConsoleFormatter : ConsoleFormatter
+    /*public class CustomConsoleFormatter : ConsoleFormatter
     {
         public CustomConsoleFormatter() : base(nameof(CustomConsoleFormatter))
         {
@@ -106,24 +107,7 @@ namespace TSI_ERP_ETL
             Console.ForegroundColor = defaultColor;
             writer.WriteLine($" {message}");
         }
-
-
-        /*private static ConsoleColor GetLogLevelColor(LogLevel logLevel)
-        {
-            return logLevel switch
-            {
-                LogLevel.Error => ConsoleColor.Red,
-                LogLevel.Warning => ConsoleColor.Yellow,
-                LogLevel.Information => ConsoleColor.Green,
-                LogLevel.Debug => ConsoleColor.Gray,
-                LogLevel.Trace => ConsoleColor.DarkGray,
-                LogLevel.Critical => ConsoleColor.DarkRed,
-                _ => Console.ForegroundColor, // This should be the default color, not a specific color.
-            };
-        }*/
-    }
-
-
+        */
     /*public class CustomConsoleFormatter : ConsoleFormatter
     {
         public CustomConsoleFormatter() : base(nameof(CustomConsoleFormatter))
@@ -170,6 +154,17 @@ namespace TSI_ERP_ETL
             };
         }
     }*/
+    /*private static ConsoleColor GetLogLevelColor(LogLevel logLevel)
+        {
+            return logLevel switch
+            {
+                LogLevel.Error => ConsoleColor.Red,
+                LogLevel.Warning => ConsoleColor.Yellow,
+                LogLevel.Information => ConsoleColor.Green,
+                LogLevel.Debug => ConsoleColor.Gray,
+                LogLevel.Trace => ConsoleColor.DarkGray,
+                LogLevel.Critical => ConsoleColor.DarkRed,
+                _ => Console.ForegroundColor, // This should be the default color, not a specific color.
+            };
+        }*/
 }
-
-
