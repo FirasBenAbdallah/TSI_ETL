@@ -1,20 +1,64 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Models.Document;
+using TSI_ERP_ETL.Models.ETLModel;
 
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
     public class VdocumentDetailLoad
     {
-        public static async Task LoadVdocumentDetailAsync(IEnumerable<VdocumentDetailModel> data, string connectionString)
+        private readonly ETLDbContext _context;
+
+        public VdocumentDetailLoad(ETLDbContext context)
         {
-            using var connection = new SqlConnection(connectionString);
-            await connection.OpenAsync();
-            foreach (var item in data)
+            _context = context;
+        }
+
+        public  async Task LoadVdocumentDetailAsync(IEnumerable<VdocumentDetailModel> data)
+
+        {
+
+            try
             {
-                var command = new SqlCommand("INSERT INTO documentDetail (PrixUnitaire) VALUES (@Value1)", connection);
-                command.Parameters.AddWithValue("@Value1", item.PrixUnitaire);
-                await command.ExecuteNonQueryAsync();
+
+
+
+                // Parcourir les données fournies
+                foreach (var item in data)
+                {
+
+                    // Créer une instance de FournisseurETLModel à partir des données TierModel
+                    var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite };
+                    var document = new DocumentETLModel { MontantTtc = item.MontantTtc };
+
+                    // Ajouter l'entité nouvellement créée au DbSet du contexte
+                    await _context.DocumentDetail.AddAsync(documentDetail);
+                    await _context.Document.AddAsync(document);
+                }
+
+
+                // Sauvegarder les changements dans la base de données
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Gérer les erreurs lors de la sauvegarde des changements dans la base de données
+                // Enregistrez l'erreur ou inspectez l'exception interne
+                Console.WriteLine($"Une erreur s'est produite lors de l'enregistrement des modifications de l'entité : {ex.Message}");
+
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Exception interne : {ex.InnerException.Message}");
+                }
+
+                // Éventuellement, relancer l'exception si vous ne pouvez pas la gérer ici
+                throw;
             }
         }
+
+
+
     }
 }

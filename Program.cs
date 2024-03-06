@@ -57,7 +57,8 @@ namespace TSI_ERP_ETL
                 //! Initiate the ETL procedures
                 //---------------------------------------------------------------------------//
                 // Call the DeviseProcess.ProcessDeviseAsync method
-                await DeviseProcess.ProcessDeviseAsync(Token, erpApiClient);
+              
+                //  await DeviseProcess.ProcessDeviseAsync(Token, erpApiClient);
 
                 // Call the FournisseurProcess.ProcessFpurnisseurAsync method
                 await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient);
