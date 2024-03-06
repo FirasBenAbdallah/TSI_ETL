@@ -12,7 +12,7 @@ namespace TSI_ERP_ETL.ETL.Devise
                 item.LibelleDevise += " Devise";
             }
             sumNombreDevises = data.Sum(item => item.NumeroDevise);
-            Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevises}");
+            //Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevises}");
 
             // Transform the data here
             return data;

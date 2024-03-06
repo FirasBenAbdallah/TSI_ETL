@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
@@ -10,7 +11,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
             // Build configuration from appsettings.json
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("Erp_ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
             // Create an instance of ErpApiClient
@@ -38,7 +39,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
             await VdocumentDetailLoad.LoadVdocumentDetailAsync(transformedData, connectionString);
 
             // Log the process completion message for the Devise ETL process
-            Console.WriteLine("VdocumentDetail ETL process completed successfully.");
+            Console.WriteLine("VdocumentDetail ETL process completed successfully.\n");
         }
     }
 }

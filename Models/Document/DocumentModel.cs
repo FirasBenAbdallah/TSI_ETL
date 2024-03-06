@@ -69,6 +69,8 @@ namespace TSI_ERP_ETL.Models.Document
         public bool? ProFormat { get; set; }
         public bool? IsExonore { get; set; }
         public Guid? Personne { get; set; }
+        public Guid Uid { get; set; }
+
         public decimal? MontantTtchorsTimbre { get; set; }
         public string? Colonne1 { get; set; }
         public string? Colonne2 { get; set; }

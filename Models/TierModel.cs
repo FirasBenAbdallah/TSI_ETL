@@ -107,16 +107,15 @@
         public bool? FinMois { get; set; }
         public DateTime? DateChangementIdentifiant { get; set; }
         public decimal? PourcAvanceSurImpot { get; set; }
-
-        /*public IEnumerable<TierExonorationResponse> TierExonorations { get; set; } = Enumerable.Empty<TierExonorationResponse>();
-        public IEnumerable<ContactsResponse> ContactsNavigations { get; set; } = Enumerable.Empty<ContactsResponse>();
-        public IEnumerable<ContratMaintenanceResponse> ContratMaintenances { get; set; } = Enumerable.Empty<ContratMaintenanceResponse>();
-        public IEnumerable<TierExonorationFodecResponse> TierExonorationFodecs { get; set; } = Enumerable.Empty<TierExonorationFodecResponse>();
-        public IEnumerable<AdressesResponse> Adressess { get; set; } = Enumerable.Empty<AdressesResponse>();
-        public IEnumerable<InterventionResponse> Interventions { get; set; } = Enumerable.Empty<InterventionResponse>();
-        public IEnumerable<ProjetResponse> Projets { get; set; } = Enumerable.Empty<ProjetResponse>();
-        public IEnumerable<TimeSheetResponse> TimeSheets { get; set; } = Enumerable.Empty<TimeSheetResponse>();
-        public IEnumerable<DetailMatriculeFiscalResponse> DetailMatriculeFiscals { get; set; } = Enumerable.Empty<DetailMatriculeFiscalResponse>();*/
-
     }
 }
+
+/*public IEnumerable<TierExonorationResponse> TierExonorations { get; set; } = Enumerable.Empty<TierExonorationResponse>();
+public IEnumerable<ContactsResponse> ContactsNavigations { get; set; } = Enumerable.Empty<ContactsResponse>();
+public IEnumerable<ContratMaintenanceResponse> ContratMaintenances { get; set; } = Enumerable.Empty<ContratMaintenanceResponse>();
+public IEnumerable<TierExonorationFodecResponse> TierExonorationFodecs { get; set; } = Enumerable.Empty<TierExonorationFodecResponse>();
+public IEnumerable<AdressesResponse> Adressess { get; set; } = Enumerable.Empty<AdressesResponse>();
+public IEnumerable<InterventionResponse> Interventions { get; set; } = Enumerable.Empty<InterventionResponse>();
+public IEnumerable<ProjetResponse> Projets { get; set; } = Enumerable.Empty<ProjetResponse>();
+public IEnumerable<TimeSheetResponse> TimeSheets { get; set; } = Enumerable.Empty<TimeSheetResponse>();
+public IEnumerable<DetailMatriculeFiscalResponse> DetailMatriculeFiscals { get; set; } = Enumerable.Empty<DetailMatriculeFiscalResponse>();*/
