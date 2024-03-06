@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -10,6 +10,7 @@ using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
 using TSI_ERP_ETL.TableUtilities;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 
 namespace TSI_ERP_ETL.ETL.Document
 {
@@ -17,6 +18,12 @@ namespace TSI_ERP_ETL.ETL.Document
     {
         public static async Task ProcessDocumentAsync(string token, ErpApiClient erpApiClient)
         {
+            if (token is null)
+            {
+
+                throw new ArgumentNullException(nameof(token));
+            }
+
             {
                 // Construire la configuration à partir du fichier appsettings.json
                 var optionsBuilder = new DbContextOptionsBuilder<ETLDbContext>();
@@ -31,7 +38,6 @@ namespace TSI_ERP_ETL.ETL.Document
 
                 // Tronquer la table avant de charger de nouvelles données
                 // Vérifier si la table "Document" existe
-
 
                 bool tableExists = await DatabaseHelper.TableExistsAsync(erpApiClient.DbConnection!, "Document");
                 if (!tableExists)

@@ -9,7 +9,6 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
     public class VdocumentDetailProcess
     {
-        
             // Configure DbContext
             public static async Task ProcessVdocumentDetailAsync(string token, ErpApiClient erpApiClient)
             {
@@ -28,7 +27,6 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                     // Tronquer la table avant de charger de nouvelles données
                     // Vérifier si la table "Document" existe
 
-
                     bool tableExists = await DatabaseHelper.TableExistsAsync(erpApiClient.DbConnection!, "DocumentDetail");
                     if (!tableExists)
                     {
@@ -43,8 +41,6 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                         await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "DocumentDetail");
                     }
                 // Extraire les données à partir du point d'API
-
-
                 var extractedData = await VdocumentDetailExtract.ExtractVdocumentDetailAsync(apiUrl, token);
                     //var sss = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
 

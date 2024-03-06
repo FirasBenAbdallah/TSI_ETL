@@ -13,9 +13,7 @@ namespace TSI_ERP_ETL.ETL.Document
 {
     public class DocumentTransform
     {
-
-
-            public static IEnumerable<DocumentModel> TransformDocument(IEnumerable<DocumentModel> data)
+        public static IEnumerable<DocumentModel> TransformDocument(IEnumerable<DocumentModel> data)
         {
             List<string> stringList = new List<string>();
             int sumOfStringList = 0;
@@ -38,4 +36,4 @@ namespace TSI_ERP_ETL.ETL.Document
             return data;
         }
     }
-}     
+}

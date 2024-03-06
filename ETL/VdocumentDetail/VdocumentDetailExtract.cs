@@ -16,10 +16,6 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                 using var httpClient = new HttpClient();
 
                 // Set the Authorization header with the token
-              
-            
-
-                
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                     var getAllPagedRequest = new GetAllPagedRequest

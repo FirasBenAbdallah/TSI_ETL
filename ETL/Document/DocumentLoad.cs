@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -15,27 +15,26 @@ namespace TSI_ERP_ETL.ETL.Document
     public class DocumentLoad
     {
         private readonly ETLDbContext _context;
-        
+
         public DocumentLoad(ETLDbContext context)
         {
             _context = context;
         }
         public async Task LoadDocumentAsync(IEnumerable<DocumentModel> data)
         {
-
             try
             {
                 // Parcourir les données fournies
                 foreach (var item in data)
                 {
                     // Créer une instance de FournisseurETLModel à partir des données TierModel
+
                     var document = new DocumentETLModel { Devise = item.Uid, MontantTtc = item.MontantTtc };
 
                     // Ajouter l'entité nouvellement créée au DbSet du contexte
                     await _context.Document.AddAsync(document);
 
                 }
-
 
                 // Sauvegarder les changements dans la base de données
                 await _context.SaveChangesAsync();
@@ -55,9 +54,6 @@ namespace TSI_ERP_ETL.ETL.Document
                 throw;
             }
         }
-
-
-            
-        }
     }
+}
 

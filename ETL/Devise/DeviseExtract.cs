@@ -6,7 +6,7 @@ namespace TSI_ERP_ETL.ETL.Devise
 {
     public class DeviseExtract
     {
-        public static async Task<List<DeviseModel>> ExtractDeviseAsync(string apiUrl, string token)//string loginUrl
+        public static async Task<List<DeviseModel>> ExtractDeviseAsync(string apiUrl, string token)
         {
             using var httpClient = new HttpClient();
 
