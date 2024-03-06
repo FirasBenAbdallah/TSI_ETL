@@ -7,6 +7,7 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
     public class ETLDbContext : DbContext
     {
         public DbSet<DocumentETLModel> Document { get; set; }
+        public DbSet<DocumentDetailETLModel> DocumentDetail { get; set; }
 
         public DbSet<FournisseurETLModel> Fournisseur { get; set; }
         //public DbSet<TierModel> Fournisseur { get; set; }
@@ -19,6 +20,8 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
             modelBuilder.Entity<FournisseurETLModel>().HasKey(f => f.FournisseurId);
             //modelBuilder.Entity<DocumentCreateRequest>().HasKey(f => f.Devise);
             modelBuilder.Entity<DocumentETLModel>().HasKey(f => f.Devise);
+            modelBuilder.Entity<DocumentDetailETLModel>().HasKey(f => f.Devise);
+
         }
     }
 }

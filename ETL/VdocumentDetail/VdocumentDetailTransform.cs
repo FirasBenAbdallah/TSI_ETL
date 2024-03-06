@@ -4,11 +4,16 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
     public class VdocumentDetailTransform
     {
-        public static IEnumerable<VdocumentDetailModel> TransformVdocumentDetail(IEnumerable<VdocumentDetailModel> data)
+        public static IEnumerable<VdocumentDetailModel> documentDetailTransform(IEnumerable<VdocumentDetailModel> data)
         {
-            decimal? sumNombreDevises = 0;
-            sumNombreDevises = data.Sum(item => item.PrixUnitaire);
-            //Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevises}");
+            double? sumNombreDevises = 0;
+            sumNombreDevises = data.Sum(item => item.Quantite);
+
+            decimal? sumNombreDevi = 0;
+            sumNombreDevi = data.Sum(item => item.MontantTtc);
+
+            Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevi}");
+            Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevi}");
 
             // Transform the data here
             return data;
