@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TSI_ERP_ETL.ApiEndpoints;
+using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 using TSI_ERP_ETL.TableUtilities;
 
@@ -14,26 +14,14 @@ namespace TSI_ERP_ETL.ETL.Document
 {
     public class DocumentProcess
     {
-        public static async Task ProcessDocumentAsync()
+        public static async Task ProcessDocumentAsync(string token, ErpApiClient erpApiClient)
         {
             {
                 // Construire la configuration à partir du fichier appsettings.json
-                IConfiguration configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
-                    .Build();
-
-                // Créer une instance de ErpApiClient en utilisant la configuration
-                var erpApiClient = new ErpApiClient(configuration);
-
-                // Chaîne de connexion à la base de données
-                string connectionString = erpApiClient.DbConnection!;
-
-                // Configurer DbContext
                 var optionsBuilder = new DbContextOptionsBuilder<ETLDbContext>();
-                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.UseSqlServer(erpApiClient.DbConnection!);
                 var context = new ETLDbContext(optionsBuilder.Options);
-
+               
                 // Instancier DocumentLoad avec DbContext
                 var documentLoad = new DocumentLoad(context);
 
@@ -44,18 +32,18 @@ namespace TSI_ERP_ETL.ETL.Document
                 // Tronquer la table avant de charger de nouvelles données
                 // Vérifier si la table "Document" existe
 
-               
-                bool tableExists = await DatabaseHelper.TableExistsAsync(connectionString, "Document");
+
+                bool tableExists = await DatabaseHelper.TableExistsAsync(erpApiClient.DbConnection!, "Document");
                 if (!tableExists)
                 {
                     Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
-                    await TableCreate.CreateTable(connectionString, "Document", "Devise uniqueidentifier PRIMARY KEY, NumDocument varchar(max) null");
+                    await TableCreate.CreateTable(erpApiClient.DbConnection!, "Document", "Devise uniqueidentifier PRIMARY KEY, NumDocument varchar(max) null");
                 }
                 else
                 {
                     Console.WriteLine("La table existe déjà. Ignorer l'initialisation.");
                     // Tronquer la table avant de charger de nouvelles données
-                    await TableTruncate.TruncateTable(connectionString, "document");
+                    await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "document");
                 }
                 // Extraire les données à partir du point d'API
                 var extractedData = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
@@ -72,26 +60,25 @@ namespace TSI_ERP_ETL.ETL.Document
             }
         }
 
-            // Méthode pour configurer les services pour l'injection de dépendances
-            public static IServiceProvider ConfigureServices()
-            {
-                var services = new ServiceCollection();
+        // Méthode pour configurer les services pour l'injection de dépendances
+        public static IServiceProvider ConfigureServices()
+        {
+            var services = new ServiceCollection();
 
-                // Construire la configuration
-                IConfiguration configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
-                    .Build();
+            // Construire la configuration
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("ApiEndpoints/appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
 
-                // Ajouter DbContext avec SQL Server
-                services.AddDbContext<ETLDbContext>(options =>
-                    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            // Ajouter DbContext avec SQL Server
+            services.AddDbContext<ETLDbContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-                // Enregistrer d'autres services
-                services.AddTransient<DocumentProcess>();
+            // Enregistrer d'autres services
+            services.AddTransient<DocumentProcess>();
 
-                return services.BuildServiceProvider();
-            }
+            return services.BuildServiceProvider();
         }
     }
-    
+}

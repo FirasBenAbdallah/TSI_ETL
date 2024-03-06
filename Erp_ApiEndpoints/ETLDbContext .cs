@@ -20,6 +20,5 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
             //modelBuilder.Entity<DocumentCreateRequest>().HasKey(f => f.Devise);
             modelBuilder.Entity<DocumentETLModel>().HasKey(f => f.Devise);
         }
+    }
 }
-}
-
