@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
-using TSI_ERP_ETL.Front_Api;
-
+using TSI_ERP_ETL.Front_Api.ChiffreAffaire;
+using TSI_ERP_ETL.Front_Api.Fournisseur;
 
 namespace TSI_ERP_ETL
 {
@@ -19,6 +19,7 @@ namespace TSI_ERP_ETL
                 options.UseSqlServer(erpApiClient.DbConnection!));
 
             services.AddScoped<FournisseurService>();
+            services.AddScoped<ChiffreAffaireService>();
             services.AddControllers();
             // Register the Swagger generator
             services.AddSwaggerGen(c =>
@@ -51,31 +52,5 @@ namespace TSI_ERP_ETL
                 endpoints.MapControllers();
             });
         }
-
-        /*public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseRouting();
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS)
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TSI ERP ETL API V1");
-                c.RoutePrefix = string.Empty; // To serve the Swagger UI at the app's root
-            });
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-        }*/
     }
 }

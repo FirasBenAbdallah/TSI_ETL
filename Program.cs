@@ -67,6 +67,5 @@ namespace TSI_ERP_ETL
             {
                 webBuilder.UseStartup<Startup>();
             });
-
     }
 }
