@@ -1,12 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Logging.Console;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
-using TSI_ERP_ETL.ETL.Devise;
 using TSI_ERP_ETL.ETL.Document;
-using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
 
 namespace TSI_ERP_ETL
@@ -15,29 +13,12 @@ namespace TSI_ERP_ETL
     {
         public static async Task Main(string[] args)
         {
-            /*var serviceProvider = new ServiceCollection()
-                .AddLogging(builder =>
-                {
-                    builder.AddConsole(options =>
-                    {
-                        options.FormatterName = nameof(CustomConsoleFormatter);
-                    })
-                    .AddConsoleFormatter<CustomConsoleFormatter, ConsoleFormatterOptions>();
-                })
-                .BuildServiceProvider();*/
-            // Set up Dependency Injection
-            /*var serviceProvider = new ServiceCollection()
-                                .AddLogging(builder => builder
-                                    .AddConsole()
-                                    .AddFilter(level => level >= LogLevel.Information) // Customize log level as needed
-                                )
-                                .BuildServiceProvider();*/
-
             // Get logger from DI
             ServiceProvider serviceProvider = Logger.Log();
             var logger = serviceProvider.GetService<ILogger<Program>>();
-            var fournisseurLogger = serviceProvider.GetService<ILogger<FournisseurProcess>>();
+            //var fournisseurLogger = serviceProvider.GetService<ILogger<FournisseurProcess>>();
 
+            CreateHostBuilder(args).Build().Run();
 
             try
             {
@@ -81,90 +62,11 @@ namespace TSI_ERP_ETL
                 logger!.LogError("An error occurred: {ErrorMessage}", ex.Message);
             }
         }
+        public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+
     }
-
-    /*public class CustomConsoleFormatter : ConsoleFormatter
-    {
-        public CustomConsoleFormatter() : base(nameof(CustomConsoleFormatter))
-        {
-        }
-
-        public override void Write<TState>(in LogEntry<TState> entry, IExternalScopeProvider? scopeProvider, TextWriter writer)
-        {
-            // Extract the default console color only once at the beginning of the Write method
-            var defaultColor = Console.ForegroundColor;
-
-            var logLevel = entry.LogLevel;
-            var message = entry.Formatter(entry.State, entry.Exception);
-
-            // Set the color for the log level
-            //var logLevelColor = GetLogLevelColor(logLevel);
-            //Console.ForegroundColor = logLevelColor;
-            writer.Write($"[{DateTime.Now:dd-MMM-yyyy HH:mm:ss} ");
-            writer.Write($"{logLevel.ToString()[..3].ToUpperInvariant()}] ");
-
-            // Reset the color to the default before writing the message
-            Console.ForegroundColor = defaultColor;
-            writer.WriteLine($" {message}");
-        }
-        */
-    /*public class CustomConsoleFormatter : ConsoleFormatter
-    {
-        public CustomConsoleFormatter() : base(nameof(CustomConsoleFormatter))
-        {
-        }
-
-        public override void Write<TState>(in LogEntry<TState> entry, IExternalScopeProvider scopeProvider, TextWriter writer)
-        {
-            var originalColor = Console.ForegroundColor;
-            try
-            {
-                var logLevel = entry.LogLevel;
-                var message = entry.Formatter(entry.State, entry.Exception);
-
-                // Write the date and time
-                writer.Write($"[{DateTime.Now:dd-MMM-yyyy HH:mm:ss}] ");
-
-                // Change color for log level
-                Console.ForegroundColor = GetLogLevelColor(logLevel);
-                writer.Write($"{logLevel.ToString()[..3].ToUpperInvariant()}: \n");
-
-                //logLevel = LogLevel.Debug;
-                Console.ForegroundColor = originalColor;
-                writer.WriteLine(message);
-            }
-            finally
-            {
-                // Ensure the original console color is set back
-                Console.ForegroundColor = originalColor;
-            }
-        }
-
-        private static ConsoleColor GetLogLevelColor(LogLevel logLevel)
-        {
-            return logLevel switch
-            {
-                LogLevel.Error => ConsoleColor.Red,
-                LogLevel.Warning => ConsoleColor.Yellow,
-                LogLevel.Information => ConsoleColor.Green,
-                LogLevel.Debug => ConsoleColor.Gray,
-                LogLevel.Trace => ConsoleColor.DarkGray,
-                LogLevel.Critical => ConsoleColor.DarkRed,
-                _ => ConsoleColor.Blue,
-            };
-        }
-    }*/
-    /*private static ConsoleColor GetLogLevelColor(LogLevel logLevel)
-        {
-            return logLevel switch
-            {
-                LogLevel.Error => ConsoleColor.Red,
-                LogLevel.Warning => ConsoleColor.Yellow,
-                LogLevel.Information => ConsoleColor.Green,
-                LogLevel.Debug => ConsoleColor.Gray,
-                LogLevel.Trace => ConsoleColor.DarkGray,
-                LogLevel.Critical => ConsoleColor.DarkRed,
-                _ => Console.ForegroundColor, // This should be the default color, not a specific color.
-            };
-        }*/
 }

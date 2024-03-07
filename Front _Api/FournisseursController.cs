@@ -1,8 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TSI_ERP_ETL.Models.ETLModel;
-using TSI_ERP_ETL.Erp_ApiEndpoints;
-using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Front_Api;
+
+namespace TSI_ERP_ETL.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class FournisseursController : ControllerBase
+    {
+        private readonly FournisseurService _fournisseurService;
+
+        public FournisseursController(FournisseurService fournisseurService)
+        {
+            _fournisseurService = fournisseurService;
+        }
+
+        [HttpGet("GetFournisseurs")]
+        public async Task<ActionResult<IEnumerable<FournisseurETLModel>>> GetFournisseurs()
+        {
+            var fournisseurs = await _fournisseurService.GetFournisseursAsync();
+            return Ok(fournisseurs);
+        }
+    }
+}
+
+
+
+/*using Microsoft.AspNetCore.Mvc;
+using TSI_ERP_ETL.Models.ETLModel;
 
 namespace TSI_ERP_ETL.Front_Api
 {
@@ -10,19 +35,21 @@ namespace TSI_ERP_ETL.Front_Api
     [ApiController]
     public class FournisseursController : ControllerBase
     {
-        private readonly ETLDbContext _context;
+        private readonly FournisseurService _fournisseurService;
 
-        public FournisseursController(ETLDbContext context)
+        public FournisseursController(FournisseurService fournisseurService)
         {
-            _context = context;
+            _fournisseurService = fournisseurService;
         }
 
-        // GET: api/Fournisseurs
+ 
         [HttpGet]
-        [Route("/GetAll")]
+        [Route("GetFournisseurs")]
         public async Task<ActionResult<IEnumerable<FournisseurETLModel>>> GetFournisseurs()
         {
-            return await _context.Fournisseur.ToListAsync();
+            return Ok(await _fournisseurService.GetFournisseursAsync());
         }
     }
+
 }
+*/
