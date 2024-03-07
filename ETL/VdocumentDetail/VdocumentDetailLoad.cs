@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.Models;
-using TSI_ERP_ETL.Models.Document;
 using TSI_ERP_ETL.Models.ETLModel;
+using TSI_ERP_ETL.Resource;
 
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
@@ -16,49 +15,50 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
             _context = context;
         }
 
-        public  async Task LoadVdocumentDetailAsync(IEnumerable<VdocumentDetailModel> data)
+        public async Task LoadVdocumentDetailAsync(IEnumerable<VdocumentDetailModel> data)
 
         {
-
             try
             {
-
-
+                // Récupérer la liste des montants TTC
+                var list = SharedResource.MontantTtcList;
 
                 // Parcourir les données fournies
-                foreach (var item in data)
+                foreach (var (item, index) in data.Select((item, index) => (item, index)))
                 {
-
-                    // Créer une instance de FournisseurETLModel à partir des données TierModel
-                    var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite };
-                    var document = new DocumentETLModel { MontantTtc = item.MontantTtc };
-
-                    // Ajouter l'entité nouvellement créée au DbSet du contexte
-                    await _context.DocumentDetail.AddAsync(documentDetail);
-                    await _context.Document.AddAsync(document);
+                    // Vérifier si l'index est inférieur à la taille de la liste
+                    if (index < list.Count)
+                    {
+                        // Créer un nouvel objet DocumentDetailETLModel avec MontantTtc
+                        var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite, MontantTtc = list[index] };
+                        // Ajouter l'objet à la table DocumentDetail
+                        await _context.DocumentDetail.AddAsync(documentDetail);
+                    }
+                    // Si l'index est supérieur à la taille de la liste
+                    else
+                    {
+                        // Créer un nouvel objet DocumentDetailETLModel sans MontantTtc
+                        var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite };
+                        // Ajouter l'objet à la table DocumentDetail
+                        await _context.DocumentDetail.AddAsync(documentDetail);
+                    }
                 }
-
-
                 // Sauvegarder les changements dans la base de données
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
-                // Gérer les erreurs lors de la sauvegarde des changements dans la base de données
-                // Enregistrez l'erreur ou inspectez l'exception interne
+                // Traiter l'exception DbUpdateException ici
                 Console.WriteLine($"Une erreur s'est produite lors de l'enregistrement des modifications de l'entité : {ex.Message}");
 
                 if (ex.InnerException != null)
                 {
+                    // Traiter l'exception interne ici si nécessaire
                     Console.WriteLine($"Exception interne : {ex.InnerException.Message}");
                 }
-
-                // Éventuellement, relancer l'exception si vous ne pouvez pas la gérer ici
+                // Rejeter l'exception DbUpdateException
                 throw;
             }
         }
-
-
-
     }
 }

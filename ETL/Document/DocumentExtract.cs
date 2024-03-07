@@ -4,6 +4,7 @@ using System.Text;
 using TSI_ERP_ETL.Models.Document;
 using TSI_ERP_ETL.Models;
 using TSI_ERP_ETL.Models.GetAllPaged;
+using TSI_ERP_ETL.Resource;
 
 namespace TSI_ERP_ETL.ETL.Document
 {
@@ -14,38 +15,47 @@ namespace TSI_ERP_ETL.ETL.Document
             {
                 using var httpClient = new HttpClient();
 
-                        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                        var getAllPagedRequest = new GetAllPagedRequest
-                        {
-                            MaxResultCount = 10,
-                            SkipCount = 0,
-                            Sorting = new List<SortingByProperty>(),
-                            Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
-                            GetAllData = true,
-                            Summaries = new List<string>(),
-                            // TypeTier = "F",
-                        };
+                var getAllPagedRequest = new GetAllPagedRequest
+                {
+                    MaxResultCount = 10,
+                    SkipCount = 0,
+                    Sorting = new List<SortingByProperty>(),
+                    Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
+                    GetAllData = true,
+                    Summaries = new List<string>(),
+                    // TypeTier = "F",
+                };
 
-                        var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
+                var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
 
-                        var response = await httpClient.PostAsync(apiUrl + "/Document/getallpaged", requestContent);
+                var response = await httpClient.PostAsync(apiUrl + "/Document/getallpaged", requestContent);
 
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var responseContent = await response.Content.ReadAsStringAsync();
-                            var apiResponse = JsonConvert.DeserializeObject<ApiResponse<DocumentModel>>(responseContent);
-                            string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
-                            //Console.WriteLine(newJson);
-                            return apiResponse!.Items!;
-                        }
-                        else
-                        {
-                            throw new Exception($"API Error : {response.StatusCode} AT {response.Headers.Date}");
-                        }
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse<DocumentModel>>(responseContent);
+                    string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
+                    // Assuming MontantTtc is of type decimal. Adjust the type if necessary.
+                    //List<decimal> montantTtcList = new();
+
+                    foreach (var item in apiResponse!.Items!)
+                    {
+                        //montantTtcList.Add(item.MontantTtc);
+                        SharedResource.MontantTtcList.Add(item.MontantTtc);
+                        //Console.WriteLine($"MontantTtc at index {index} : {SharedResource.MontantTtcList[index]}");
                     }
+                    //Console.WriteLine(newJson);
+                    return apiResponse!.Items!;
                 }
-
+                else
+                {
+                    throw new Exception($"API Error : {response.StatusCode} AT {response.Headers.Date}");
+                }
             }
-
         }
+
+    }
+
+}
