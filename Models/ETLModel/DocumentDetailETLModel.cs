@@ -12,7 +12,7 @@ namespace TSI_ERP_ETL.Models.ETLModel
         public double? Quantite { get; set; }
         public decimal? MontantTtc { get; set; }
 
-        public int RowIndex { get; set; }  // Add this property
+        //public int RowIndex { get; set; }  // Add this property
 
     }
 }
