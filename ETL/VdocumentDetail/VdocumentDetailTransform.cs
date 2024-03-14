@@ -10,7 +10,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
             sumNombreDevises = data.Sum(item => item.Quantite);
 
             decimal? sumNombreDevi = 0;
-            sumNombreDevi = data.Sum(item => item.MontantTtc);
+            //sumNombreDevi = data.Sum(item => item.MontantTtc);
 
             Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevi}");
             Console.WriteLine($"The sum of NombreDevises is: {sumNombreDevi}");

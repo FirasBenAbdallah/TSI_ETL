@@ -17,5 +17,12 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
         {
             return await _context.DocumentDetail.ToListAsync();
         }
+
+        public async Task<IEnumerable<DocumentDetailETLModel>> FilterChiffreAffaireByYearAsync(int year)
+        {
+            //return await _context.DocumentDetail.Where(x => x.DateFilter.Year == year).ToListAsync();
+            return await _context.DocumentDetail.Where(x => x.DateFilter.HasValue && x.DateFilter.Value.Year == year).ToListAsync();
+
+        }
     }
 }

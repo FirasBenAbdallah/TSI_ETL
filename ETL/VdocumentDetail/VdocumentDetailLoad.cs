@@ -30,7 +30,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                     if (index < list.Count)
                     {
                         // Créer un nouvel objet DocumentDetailETLModel avec MontantTtc
-                        var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite, MontantTtc = list[index] };
+                        var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite,DateFilter = item.DateDocument, MontantTtc = list[index] };
                         // Ajouter l'objet à la table DocumentDetail
                         await _context.DocumentDetail.AddAsync(documentDetail);
                     }
@@ -38,7 +38,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                     else
                     {
                         // Créer un nouvel objet DocumentDetailETLModel sans MontantTtc
-                        var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite };
+                        var documentDetail = new DocumentDetailETLModel { Devise = item.Uid, Quantite = item.Quantite, DateFilter = item.DateDocument };
                         // Ajouter l'objet à la table DocumentDetail
                         await _context.DocumentDetail.AddAsync(documentDetail);
                     }

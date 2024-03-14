@@ -19,7 +19,6 @@ namespace TSI_ERP_ETL
             //var fournisseurLogger = serviceProvider.GetService<ILogger<FournisseurProcess>>();
 
             CreateHostBuilder(args).Build().Run();
-
             try
             {
                 if (args is null)
@@ -65,7 +64,7 @@ namespace TSI_ERP_ETL
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>();
+                webBuilder.UseStartup<Startup>().UseUrls("https://localhost:5000");
             });
     }
 }
