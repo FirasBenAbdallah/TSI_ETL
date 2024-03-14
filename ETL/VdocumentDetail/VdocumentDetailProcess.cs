@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
-using TSI_ERP_ETL.ETL.Document;
-using TSI_ERP_ETL.ETL.Tier.Fournisseur;
 using TSI_ERP_ETL.TableUtilities;
 
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
@@ -37,6 +34,15 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                 else
                 {
                     Console.WriteLine("La table existe déjà. Ignorer l'initialisation.");
+
+                    // Check if the DateFilter column exists
+                    bool columnExists = await DatabaseHelper.ColumnExistsAsync(context.Database.GetDbConnection(), "DocumentDetail", "DateFilter");
+                    if (!columnExists)
+                    {
+                        Console.WriteLine("La colonne 'DateFilter' n'existe pas. Ajout de la colonne.");
+                        await context.Database.ExecuteSqlRawAsync("ALTER TABLE DocumentDetail ADD DateFilter DATETIME NULL");
+                    }
+
                     // Tronquer la table avant de charger de nouvelles données
                     await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "DocumentDetail");
                 }

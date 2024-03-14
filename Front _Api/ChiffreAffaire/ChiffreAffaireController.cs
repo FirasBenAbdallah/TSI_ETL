@@ -20,5 +20,17 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
             var chiffreAffaire = await _chiffreAffaireService.GetChiffreAffaireAsync();
             return Ok(chiffreAffaire);
         }
+
+        [HttpPost("FilterByYear")]
+        public async Task<ActionResult<IEnumerable<DocumentDetailETLModel>>> FilterByYear([FromBody] ChiffreAffaireRequest request)
+        {
+            var chiffreAffaire = await _chiffreAffaireService.FilterChiffreAffaireByYearAsync(request.Year);
+            if (chiffreAffaire == null || !chiffreAffaire.Any())
+            {
+                return NotFound($"No chiffre d'affaire found for year {request.Year}.");
+            }
+
+            return Ok(chiffreAffaire);
+        }
     }
 }
