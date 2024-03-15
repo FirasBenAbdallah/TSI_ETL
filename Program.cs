@@ -64,7 +64,8 @@ namespace TSI_ERP_ETL
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>().UseUrls("https://localhost:5000");
+                webBuilder.UseStartup<Startup>();
+                //.UseUrls("https://localhost:5000");
             });
     }
 }
