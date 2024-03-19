@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using TSI_ERP_ETL.Models.ETLModel;
 
 namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
@@ -21,37 +22,30 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
             return Ok(chiffreAffaire);
         }
 
-        //[HttpPost("FilterByYear")]
-        //public async Task<ActionResult<IEnumerable<DocumentDetailETLModel>>> FilterByYear([FromBody] ChiffreAffaireRequest request)
-        //{
-        //    var chiffreAffaire = await _chiffreAffaireService.FilterChiffreAffaireByYearAsync(request.sYear);
-        //    if (chiffreAffaire == null || !chiffreAffaire.Any())
-        //    {
-        //        return NotFound($"No chiffre d'affaire found for year {request.Year}.");
-        //    }
-
-        //    return Ok(chiffreAffaire);
-        //}
-
-        
-
-        [HttpPost("FilterByMonth")]
+        [HttpPost("GetDate")]
         public async Task<ActionResult<IEnumerable<DocumentDetailETLModel>>> FilterByMonth([FromBody] ChiffreAffaireRequest request)
         {
-            if (request.StartYear > request.EndYear ||
-                (request.StartYear == request.EndYear && request.StartMonth > request.EndMonth))
+            try
             {
-                return BadRequest("Invalid start and end dates.");
+                // Convertir les dates string en objets DateTime
+                var startDate = DateTime.ParseExact(request.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var endDate = DateTime.ParseExact(request.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                // Appel de la méthode de service pour filtrer par plage de dates
+                var chiffreAffaire = await _chiffreAffaireService.FilterChiffreAffaireByDateRangeAsync(startDate, endDate);
+
+                if (chiffreAffaire == null || !chiffreAffaire.Any())
+                {
+                    return NotFound($"Aucun chiffre d'affaire trouvé pour la plage de dates spécifiée.");
+                }
+
+                return Ok(chiffreAffaire);
             }
-
-            var chiffreAffaire = await _chiffreAffaireService.FilterChiffreAffaireByDateRangeAsync(request.StartYear, request.StartMonth, request.EndYear, request.EndMonth);
-
-            if (chiffreAffaire == null || !chiffreAffaire.Any())
+            catch (Exception ex)
             {
-                return NotFound($"No chiffre d'affaire found for the specified date range.");
+                // En cas d'erreur inattendue, renvoyer une réponse avec le code d'erreur 500
+                return StatusCode(500, $"Une erreur s'est produite lors du traitement de la requête : {ex.Message}");
             }
-
-            return Ok(chiffreAffaire);
         }
 
 
