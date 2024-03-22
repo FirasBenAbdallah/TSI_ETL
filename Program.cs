@@ -17,7 +17,6 @@ namespace TSI_ERP_ETL
             ServiceProvider serviceProvider = Logger.Log();
             var logger = serviceProvider.GetService<ILogger<Program>>();
             //var fournisseurLogger = serviceProvider.GetService<ILogger<FournisseurProcess>>();
-
             CreateHostBuilder(args).Build().Run();
 
             try
@@ -61,11 +60,13 @@ namespace TSI_ERP_ETL
                 //Console.WriteLine($"\nAn error occurred: \n{ex.Message}");
                 logger!.LogError("An error occurred: {ErrorMessage}", ex.Message);
             }
+
         }
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                //.UseUrls("https://localhost:5000");
             });
     }
 }

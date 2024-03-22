@@ -10,6 +10,5 @@ namespace TSI_ERP_ETL.Models.ETLModel
     {
         public Guid Devise { get; set; } // Assuming an ID column exists
         public decimal? MontantTtc { get; set; }
-
     }
 }
