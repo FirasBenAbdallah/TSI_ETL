@@ -31,7 +31,7 @@ namespace TSI_ERP_ETL
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var swaggerUrl = "https://localhost:5000/swagger/index.html";
+            var swaggerUrl = "http://localhost:5000/swagger/index.html";
 
             if (env.IsDevelopment())
             {

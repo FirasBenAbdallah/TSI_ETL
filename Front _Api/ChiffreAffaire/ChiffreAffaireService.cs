@@ -15,7 +15,7 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
 
         public async Task<IEnumerable<DocumentDetailETLModel>> GetChiffreAffaireAsync()
         {
-            return await _context.DocumentDetail.ToListAsync();
+            return await _context.DocumentDetail.Where(x => x.DateFilter!.HasValue && x.DateFilter!.Value.Year > 1900).OrderByDescending(x => x.DateFilter!.Value).ToListAsync();
         }
 
         public async Task<IEnumerable<DocumentDetailETLModel>> FilterChiffreAffaireByYearAsync(int year)
@@ -24,16 +24,15 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
             return await _context.DocumentDetail.Where(x => x.DateFilter.HasValue && x.DateFilter.Value.Year == year).ToListAsync();
 
         }
-        public async Task<IEnumerable<DocumentDetailETLModel>> FilterChiffreAffaireByDateRangeAsync(int startYear, int startMonth, int endYear, int endMonth)
+
+        public async Task<IEnumerable<DocumentDetailETLModel>> FilterChiffreAffaireByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _context.DocumentDetail
                 .Where(x => x.DateFilter.HasValue &&
-                            (x.DateFilter.Value.Year > startYear ||
-                            (x.DateFilter.Value.Year == startYear && x.DateFilter.Value.Month >= startMonth)) &&
-                            (x.DateFilter.Value.Year < endYear ||
-                            (x.DateFilter.Value.Year == endYear && x.DateFilter.Value.Month <= endMonth)))
+                            x.DateFilter.Value >= startDate &&
+                            x.DateFilter.Value <= endDate)
+                .OrderBy(x => x.DateFilter!.Value)
                 .ToListAsync();
         }
-
     }
 }
