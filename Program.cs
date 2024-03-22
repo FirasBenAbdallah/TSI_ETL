@@ -60,13 +60,12 @@ namespace TSI_ERP_ETL
                 //Console.WriteLine($"\nAn error occurred: \n{ex.Message}");
                 logger!.LogError("An error occurred: {ErrorMessage}", ex.Message);
             }
-
         }
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>();
-                //.UseUrls("https://localhost:5000");
+                webBuilder.UseStartup<Startup>()
+                .UseUrls("http://*:7001");
             });
     }
 }
