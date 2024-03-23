@@ -1,8 +1,4 @@
 ﻿namespace TSI_ERP_ETL.Models.ETLModel
 {
-    public class ChiffreAffaireRequest
-    {
-        public string? StartDate { get; set; }
-        public string? EndDate { get; set; }
-    }
+    public record ChiffreAffaireRequest(string? StartDate, string? EndDate);
 }

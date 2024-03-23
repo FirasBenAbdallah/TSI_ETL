@@ -20,7 +20,7 @@ namespace TSI_ERP_ETL.ETL.Tier.Fournisseur
             {
                 foreach (var item in data)
                 {
-                    var fournisseur = new FournisseurETLModel { FournisseurId = item.Uid, RaisonSocial = item.RaisonSociale };
+                    var fournisseur = new FournisseurETLModel(item.Uid, item.RaisonSociale);
                     await _context.Fournisseur.AddAsync(fournisseur);
                 }
                 await _context.SaveChangesAsync();

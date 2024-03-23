@@ -4,7 +4,7 @@ using TSI_ERP_ETL.Models.ETLModel;
 
 namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
 {
-    public class ChiffreAffaireService
+    public class ChiffreAffaireService : IChiffreAffaireService
     {
         private readonly ETLDbContext _context;
 
@@ -15,7 +15,7 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
 
         public async Task<IEnumerable<DocumentDetailETLModel>> GetChiffreAffaireAsync()
         {
-            return await _context.DocumentDetail.Where(x => x.DateFilter!.HasValue && x.DateFilter!.Value.Year > 1900).OrderByDescending(x => x.DateFilter!.Value).ToListAsync();
+            return await _context.DocumentDetail.Where(x => x.DateFilter!.HasValue && x.DateFilter!.Value.Year > 1900).OrderBy(x => x.Quantite!.Value).ToListAsync();
         }
 
         public async Task<IEnumerable<DocumentDetailETLModel>> FilterChiffreAffaireByYearAsync(int year)
