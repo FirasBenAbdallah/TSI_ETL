@@ -3,12 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
+using TSI_ERP_ETL.ETL;
+using TSI_ERP_ETL.ETL.Article;
 
 namespace TSI_ERP_ETL
 {
     class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             // Get logger from DI
             ServiceProvider serviceProvider = Logger.Log();
@@ -22,14 +24,14 @@ namespace TSI_ERP_ETL
                     logger!.LogError("Arguments are null.");
                     throw new ArgumentNullException(nameof(args));
                 }
-                CreateHostBuilder(args).Build().Run();
+                //CreateHostBuilder(args).Build().Run();
                 var erpApiClient = ConfigurationBuild.InitializeErpApiClient();
 
                 // Login URL from erpApiClient instance
-                //string loginUrl = erpApiClient.LoginUrl!;
+                string loginUrl = erpApiClient.LoginUrl!;
 
                 // Call login method
-                //string Token = await Login.GetTokenAsync(loginUrl);
+                string Token = await Login.GetTokenAsync(loginUrl);
 
                 logger!.LogInformation("Starting ETL procedures.");
 
@@ -47,6 +49,9 @@ namespace TSI_ERP_ETL
 
                 // Call the VdocumentDetailProcess.ProcessVdocumentDetailAsync method
                 //await VdocumentDetailProcess.ProcessVdocumentDetailAsync(Token, erpApiClient);
+
+                // Call the ArticleProcess.ProcessArticleAsync method
+                await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");

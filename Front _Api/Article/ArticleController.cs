@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TSI_ERP_ETL.Front__Api.Article
+namespace TSI_ERP_ETL.Front_Api.Article
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -4,7 +4,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
     public class VdocumentDetailTransform
     {
-        public static IEnumerable<VdocumentDetailModel> documentDetailTransform(IEnumerable<VdocumentDetailModel> data)
+        public static IEnumerable<VdocumentDetailModel> DocumentDetailTransform(IEnumerable<VdocumentDetailModel> data)
         {
             double? sumNombreDevises = 0;
             sumNombreDevises = data.Sum(item => item.Quantite);
