@@ -51,7 +51,7 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                 //var sss = await DocumentExtract.ExtractDocumentAsync(apiUrl, loginUrl);
 
                 // Transformer les données avant de les charger dans la base de données
-                var transformedData = VdocumentDetailTransform.documentDetailTransform(extractedData);
+                var transformedData = VdocumentDetailTransform.DocumentDetailTransform(extractedData);
 
                 await documentDetailLoad.LoadVdocumentDetailAsync(transformedData);
 
