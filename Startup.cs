@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TSI_ERP_ETL.Front_Api.Fournisseur;
 using TSI_ERP_ETL.Front_Api.ChiffreAffaire;
 using Microsoft.Extensions.DependencyInjection;
+using TSI_ERP_ETL.Front_Api.Article;
 
 namespace TSI_ERP_ETL
 {
@@ -21,6 +22,7 @@ namespace TSI_ERP_ETL
 
             services.AddScoped<FournisseurService>();
             services.AddScoped<ChiffreAffaireService>();
+            services.AddScoped<IArticleService, ArticleService>();
             services.AddControllers();
             // Register the Swagger generator
             services.AddSwaggerGen(c =>
