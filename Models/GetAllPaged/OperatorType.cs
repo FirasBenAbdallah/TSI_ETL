@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSI_ERP_ETL.Models.GetAllPaged
+﻿namespace TSI_ERP_ETL.Models.GetAllPaged
 {
     public enum OperatorType
     {
