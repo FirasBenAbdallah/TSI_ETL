@@ -1,15 +1,14 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
-using TSI_ERP_ETL.Models;
 using TSI_ERP_ETL.Models.GetAllPaged;
+using TSI_ERP_ETL.Models;
 
-
-namespace TSI_ERP_ETL.ETL.VdocumentDetail
+namespace TSI_ERP_ETL.ETL.Article
 {
-    public class VdocumentDetailExtract
+    public class ArticleExtract
     {
-        public static async Task<List<VdocumentDetailModel>> ExtractVdocumentDetailAsync(string apiUrl, string token)
+        public static async Task<List<ArticleModel>> ExtractArticleAsync(string apiUrl, string token)
         {
 
             using var httpClient = new HttpClient();
@@ -25,17 +24,16 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
                 Filters = new List<FilterByProprety>(), // { new("nom", "M", OperatorType.CONTAINS) },
                 GetAllData = true,
                 Summaries = new List<string>(),
-                // TypeTier = "F",
             };
 
             var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync(apiUrl + "/VDocumentDetail/getallpaged", requestContent);
+            var response = await httpClient.PostAsync(apiUrl + "/Article/getallpaged", requestContent);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<VdocumentDetailModel>>(responseContent);
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<ArticleModel>>(responseContent);
                 string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
                 return apiResponse!.Items!;
             }

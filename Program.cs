@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
+using TSI_ERP_ETL.ETL.Article;
+using TSI_ERP_ETL.ETL.ChiffreAffairesParClient;
 using TSI_ERP_ETL.ETL.Document;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
 
@@ -37,7 +39,7 @@ namespace TSI_ERP_ETL
                 logger!.LogInformation("Starting ETL procedures.");
 
                 //! Initiate the ETL procedures
-                //---------------------------------------------------------------------------//
+                //------------------------------------------------------------------------------------------//
                 // Call the DeviseProcess.ProcessDeviseAsync method
 
                 //  await DeviseProcess.ProcessDeviseAsync(Token, erpApiClient);
@@ -46,10 +48,16 @@ namespace TSI_ERP_ETL
                 //await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient, fournisseurLogger);
 
                 //await FournisseurProcess.ProcessFournisseurAsync();
-                await DocumentProcess.ProcessDocumentAsync(Token, erpApiClient);
+               // await DocumentProcess.ProcessDocumentAsync(Token, erpApiClient);
 
                 // Call the VdocumentDetailProcess.ProcessVdocumentDetailAsync method
-                await VdocumentDetailProcess.ProcessVdocumentDetailAsync(Token, erpApiClient);
+                //await VdocumentDetailProcess.ProcessVdocumentDetailAsync(Token, erpApiClient);
+
+                // Call the ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync method
+                //await ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync(Token, erpApiClient);
+
+                // Call the ArticleProcess.ProcessArticleAsync method
+                //await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");
@@ -60,13 +68,12 @@ namespace TSI_ERP_ETL
                 //Console.WriteLine($"\nAn error occurred: \n{ex.Message}");
                 logger!.LogError("An error occurred: {ErrorMessage}", ex.Message);
             }
-
         }
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
             {
-                webBuilder.UseStartup<Startup>();
-                //.UseUrls("https://localhost:5000");
+                webBuilder.UseStartup<Startup>()
+                .UseUrls("http://*:7001");
             });
     }
 }

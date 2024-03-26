@@ -28,8 +28,8 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
             try
             {
                 // Convertir les dates string en objets DateTime
-                var startDate = DateTime.ParseExact(request.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                var endDate = DateTime.ParseExact(request.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var startDate = DateTime.ParseExact(request.StartDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var endDate = DateTime.ParseExact(request.EndDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                 // Appel de la méthode de service pour filtrer par plage de dates
                 var chiffreAffaire = await _chiffreAffaireService.FilterChiffreAffaireByDateRangeAsync(startDate, endDate);
@@ -47,7 +47,5 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
                 return StatusCode(500, $"Une erreur s'est produite lors du traitement de la requête : {ex.Message}");
             }
         }
-
-
     }
 }

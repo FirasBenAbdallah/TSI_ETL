@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using TSI_ERP_ETL.Front_Api.Fournisseur;
 using TSI_ERP_ETL.Front_Api.ChiffreAffaire;
 using Microsoft.Extensions.DependencyInjection;
+using TSI_ERP_ETL.Front_Api.Article;
+using TSI_ERP_ETL.Front__Api.ChiffreAffairesParClient;
 
 namespace TSI_ERP_ETL
 {
@@ -21,6 +23,8 @@ namespace TSI_ERP_ETL
 
             services.AddScoped<FournisseurService>();
             services.AddScoped<ChiffreAffaireService>();
+            services.AddScoped<ChiffreAffaireParClientService>();
+            services.AddScoped<IArticleService, ArticleService>();
             services.AddControllers();
             // Register the Swagger generator
             services.AddSwaggerGen(c =>
@@ -31,7 +35,7 @@ namespace TSI_ERP_ETL
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var swaggerUrl = "http://localhost:5000/swagger/index.html";
+            var swaggerUrl = "http://localhost:7001/swagger/index.html";
 
             if (env.IsDevelopment())
             {

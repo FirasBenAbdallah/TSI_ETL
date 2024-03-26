@@ -1,15 +1,18 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
-using TSI_ERP_ETL.Models;
+using System.Threading.Tasks;
 using TSI_ERP_ETL.Models.GetAllPaged;
+using TSI_ERP_ETL.Models;
 
-
-namespace TSI_ERP_ETL.ETL.VdocumentDetail
+namespace TSI_ERP_ETL.ETL.ChiffreAffairesParClient
 {
-    public class VdocumentDetailExtract
+    public class ChiffreAffairesParClientExtract
     {
-        public static async Task<List<VdocumentDetailModel>> ExtractVdocumentDetailAsync(string apiUrl, string token)
+        public static async Task<List<ChiffreAffairesParClientModel>> ExtractChiffreAffairesParClientlAsync(string apiUrl, string token)
         {
 
             using var httpClient = new HttpClient();
@@ -30,12 +33,12 @@ namespace TSI_ERP_ETL.ETL.VdocumentDetail
 
             var requestContent = new StringContent(JsonConvert.SerializeObject(getAllPagedRequest), Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync(apiUrl + "/VDocumentDetail/getallpaged", requestContent);
+            var response = await httpClient.PostAsync(apiUrl + "/VChiffreAffaireParClient/getallpaged", requestContent);
 
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<VdocumentDetailModel>>(responseContent);
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse<ChiffreAffairesParClientModel>>(responseContent);
                 string newJson = JsonConvert.SerializeObject(apiResponse, Formatting.Indented);
                 return apiResponse!.Items!;
             }
