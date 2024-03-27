@@ -2,6 +2,8 @@
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.Models.ETLModel;
 using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Resource;
+using System.Collections.Generic;
 
 namespace TSI_ERP_ETL.ETL.Article
 {
@@ -18,14 +20,20 @@ namespace TSI_ERP_ETL.ETL.Article
         {
             try
             {
-                // Parcourir les données fournies
-                foreach (var item in data)
-                {
-                    // Créer un nouvel objet ArticleETLModel
-                    ArticleETLModel article = new(item.Uid, item.Code, item.CodeAbarres, item.Libelle, item.PrixUnitaireAchat, item.TauxTva, item.PrixUnitaireVente, item.PrixVenteTtc, item.FamilleArticle, item.CodeFournisseur, item.Active, item.Vendu, item.Achete);
+                // Récupérer la liste des codes de clients : CodeList
+                var codeList = SharedResource.CodeList;
 
-                    // Ajouter l'objet à la table DocumentDetail
-                    await _context.Article.AddAsync(article);
+                // Parcourir les données fournies
+                foreach (var (item, index) in data.Select((item, index) => (item, index)))
+                {
+                    // Vérifier si l'index est inférieur à la taille de la liste
+                    if (index < codeList.Count)
+                    {
+                        // Créer un nouvel objet ArticleETLModel
+                        ArticleETLModel article = new(item.Uid, item.Code, codeList[index], item.CodeAbarres, item.Libelle, item.PrixUnitaireAchat, item.TauxTva, item.PrixUnitaireVente, item.PrixVenteTtc, item.FamilleArticle, item.CodeFournisseur, item.Active, item.Vendu, item.Achete);
+                        // Ajouter l'objet à la table DocumentDetail
+                        await _context.Article.AddAsync(article);
+                    }
                 }
                 // Sauvegarder les changements dans la base de données
                 await _context.SaveChangesAsync();

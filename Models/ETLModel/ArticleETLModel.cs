@@ -3,6 +3,7 @@
     public record ArticleETLModel(
         Guid Uid,
         string? Code,
+        string? CodeClient,
         string? CodeAbarres,
         string? Libelle,
         decimal? PrixUnitaireAchat,

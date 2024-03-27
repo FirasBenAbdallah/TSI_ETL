@@ -9,43 +9,50 @@ namespace TSI_ERP_ETL.ETL.Article
         public static async Task ProcessArticleAsync(string token, ErpApiClient erpApiClient)
         {
             {
-                // Configure DbContext
-                var optionsBuilder = new DbContextOptionsBuilder<ETLDbContext>();
-                optionsBuilder.UseSqlServer(erpApiClient.DbConnection!);
-                var context = new ETLDbContext(optionsBuilder.Options);
-
-                // Instantiate FournisseurLoad with DbContext
-                var articleLoad = new ArticleLoad(context);
-
-                // Utiliser BaseUrl de l'instance erpApiClient
-                string apiUrl = erpApiClient.BaseUrl!;
-
-                // Vérifier si la table "Document" existe
-                bool tableExists = await DatabaseHelper.TableExistsAsync(erpApiClient.DbConnection!, "Article");
-                if (!tableExists)
+                if (token is null)
                 {
-                    Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
-
-                    await TableCreate.CreateTable(erpApiClient.DbConnection!, "Article", "Uid UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, Code NVARCHAR(255), CodeAbarres NVARCHAR(255), Libelle NVARCHAR(MAX), PrixUnitaireAchat DECIMAL(18, 2), TauxTva FLOAT, PrixUnitaireVente FLOAT, PrixVenteTtc DECIMAL(18, 2), FamilleArticle UNIQUEIDENTIFIER, CodeFournisseur NVARCHAR(255), Active BIT, Vendu BIT, Achete BIT");
+                    throw new ArgumentNullException(nameof(token));
                 }
-                else
+
                 {
-                    Console.WriteLine("La table existe déjà. Ignorer l'initialisation.");
+                    // Configure DbContext
+                    var optionsBuilder = new DbContextOptionsBuilder<ETLDbContext>();
+                    optionsBuilder.UseSqlServer(erpApiClient.DbConnection!);
+                    var context = new ETLDbContext(optionsBuilder.Options);
 
-                    // Tronquer la table avant de charger de nouvelles données
-                    await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "Article");
+                    // Instantiate FournisseurLoad with DbContext
+                    var articleLoad = new ArticleLoad(context);
+
+                    // Utiliser BaseUrl de l'instance erpApiClient
+                    string apiUrl = erpApiClient.BaseUrl!;
+
+                    // Vérifier si la table "Document" existe
+                    bool tableExists = await DatabaseHelper.TableExistsAsync(erpApiClient.DbConnection!, "Article");
+                    if (!tableExists)
+                    {
+                        Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
+
+                        await TableCreate.CreateTable(erpApiClient.DbConnection!, "Article", "Uid UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, Code NVARCHAR(255), CodeClient NVARCHAR(50), CodeAbarres NVARCHAR(255), Libelle NVARCHAR(MAX), PrixUnitaireAchat DECIMAL(18, 2), TauxTva FLOAT, PrixUnitaireVente FLOAT, PrixVenteTtc DECIMAL(18, 2), FamilleArticle UNIQUEIDENTIFIER, CodeFournisseur NVARCHAR(255), Active BIT, Vendu BIT, Achete BIT");
+                    }
+                    else
+                    {
+                        Console.WriteLine("La table existe déjà. Ignorer l'initialisation.");
+
+                        // Tronquer la table avant de charger de nouvelles données
+                        await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "Article");
+                    }
+                    // Extraire les données à partir du point d'API
+                    var extractedData = await ArticleExtract.ExtractArticleAsync(apiUrl, token);
+
+                    // Transformer les données avant de les charger dans la base de données
+                    var transformedData = ArticleTransform.ArticlesTransform(extractedData);
+
+                    // Charger les données transformées dans la base de données
+                    await articleLoad.LoadArticlelAsync(transformedData);
+
+                    // Enregistrer le message de fin du processus ETL Document
+                    Console.WriteLine("Le processus ETL Article s'est terminé avec succès.");
                 }
-                // Extraire les données à partir du point d'API
-                var extractedData = await ArticleExtract.ExtractArticleAsync(apiUrl, token);
-
-                // Transformer les données avant de les charger dans la base de données
-                var transformedData = ArticleTransform.ArticlesTransform(extractedData);
-
-                // Charger les données transformées dans la base de données
-                await articleLoad.LoadArticlelAsync(transformedData);
-
-                // Enregistrer le message de fin du processus ETL Document
-                Console.WriteLine("Le processus ETL Document s'est terminé avec succès.");
             }
         }
     }
