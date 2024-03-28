@@ -25,7 +25,8 @@ namespace TSI_ERP_ETL.ETL.Client
 
                     ClientModel client = new(code, nom);
 
-                    SharedResource.CodeList.Add(code);
+                    SharedResource.CodeClientList.Add(code);
+                    SharedResource.NomClientList.Add(nom);
 
                     clients.Add(client);
                 }

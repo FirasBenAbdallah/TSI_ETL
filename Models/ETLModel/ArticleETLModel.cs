@@ -4,6 +4,7 @@
         Guid Uid,
         string? Code,
         string? CodeClient,
+        string? NomClient,
         string? CodeAbarres,
         string? Libelle,
         decimal? PrixUnitaireAchat,

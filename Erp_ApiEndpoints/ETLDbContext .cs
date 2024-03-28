@@ -10,6 +10,7 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
         public DbSet<DocumentDetailETLModel> DocumentDetail { get; set; }
         public DbSet<ArticleETLModel> Article { get; set; }
         public DbSet<ClientModel> Client { get; set; }
+        public DbSet<ClientETLModel> ClientETL { get; set; }
         public DbSet<FournisseurETLModel> Fournisseur { get; set; }
         //public DbSet<TierModel> Fournisseur { get; set; }
         public ETLDbContext(DbContextOptions<ETLDbContext> options) : base(options) { }
@@ -22,6 +23,7 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
             modelBuilder.Entity<DocumentDetailETLModel>().HasKey(f => f.Devise);
             modelBuilder.Entity<ArticleETLModel>().HasKey(f => f.Uid);
             modelBuilder.Entity<ClientModel>().HasKey(f => f.Code);
+            modelBuilder.Entity<ClientETLModel>().HasKey(f => f.Uid);
         }
     }
 }

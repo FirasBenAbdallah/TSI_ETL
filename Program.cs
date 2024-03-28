@@ -6,8 +6,6 @@ using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
 using TSI_ERP_ETL.ETL.Article;
 using TSI_ERP_ETL.ETL.Client;
-using TSI_ERP_ETL.ETL.Document;
-using TSI_ERP_ETL.ETL.VdocumentDetail;
 
 namespace TSI_ERP_ETL
 {
@@ -27,7 +25,6 @@ namespace TSI_ERP_ETL
                     logger!.LogError("Arguments are null.");
                     throw new ArgumentNullException(nameof(args));
                 }
-                //CreateHostBuilder(args).Build().Run();
                 var erpApiClient = ConfigurationBuild.InitializeErpApiClient();
 
                 // Login URL from erpApiClient instance
@@ -58,6 +55,8 @@ namespace TSI_ERP_ETL
 
                 // Call the ArticleProcess.ProcessArticleAsync method
                 await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
+
+                CreateHostBuilder(args).Build().Run();
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");

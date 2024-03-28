@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
-using TSI_ERP_ETL.Models.ETLModel;
 using TSI_ERP_ETL.Models;
 
 namespace TSI_ERP_ETL.ETL.Client

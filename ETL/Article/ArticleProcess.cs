@@ -32,7 +32,7 @@ namespace TSI_ERP_ETL.ETL.Article
                     {
                         Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
 
-                        await TableCreate.CreateTable(erpApiClient.DbConnection!, "Article", "Uid UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, Code NVARCHAR(255), CodeClient NVARCHAR(50), CodeAbarres NVARCHAR(255), Libelle NVARCHAR(MAX), PrixUnitaireAchat DECIMAL(18, 2), TauxTva FLOAT, PrixUnitaireVente FLOAT, PrixVenteTtc DECIMAL(18, 2), FamilleArticle UNIQUEIDENTIFIER, CodeFournisseur NVARCHAR(255), Active BIT, Vendu BIT, Achete BIT");
+                        await TableCreate.CreateTable(erpApiClient.DbConnection!, "Article", "Uid UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, Code NVARCHAR(255), CodeClient NVARCHAR(50), NomClient NVARCHAR(150), CodeAbarres NVARCHAR(255), Libelle NVARCHAR(MAX), PrixUnitaireAchat DECIMAL(18, 2), TauxTva FLOAT, PrixUnitaireVente FLOAT, PrixVenteTtc DECIMAL(18, 2), FamilleArticle UNIQUEIDENTIFIER, CodeFournisseur NVARCHAR(255), Active BIT, Vendu BIT, Achete BIT");
                     }
                     else
                     {
