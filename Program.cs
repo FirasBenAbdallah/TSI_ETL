@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
 using TSI_ERP_ETL.ETL.Article;
+using TSI_ERP_ETL.ETL.ChiffreAffairesParClient;
+using TSI_ERP_ETL.ETL.Document;
+using TSI_ERP_ETL.ETL.VdocumentDetail;
 using TSI_ERP_ETL.ETL.Client;
 
 namespace TSI_ERP_ETL
@@ -45,6 +48,7 @@ namespace TSI_ERP_ETL
                 //await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient, fournisseurLogger);
 
                 //await FournisseurProcess.ProcessFournisseurAsync();
+
                 //await DocumentProcess.ProcessDocumentAsync(Token, erpApiClient);
 
                 // Call the VdocumentDetailProcess.ProcessVdocumentDetailAsync method

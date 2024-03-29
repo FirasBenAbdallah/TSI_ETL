@@ -2,7 +2,6 @@
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.Models.ETLModel;
 using TSI_ERP_ETL.Models;
-using TSI_ERP_ETL.Resource;
 
 namespace TSI_ERP_ETL.ETL.Article
 {
