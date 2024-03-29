@@ -36,7 +36,6 @@ namespace TSI_ERP_ETL.Models.Document
         public string Moderegldef { get; set; } = string.Empty;
         public string Workflow { get; set; } = string.Empty;
         public string Etat { get; set; } = string.Empty;
-        
 
     }
 }

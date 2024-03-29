@@ -4,7 +4,6 @@ using System.Text;
 using TSI_ERP_ETL.Models;
 using TSI_ERP_ETL.Models.GetAllPaged;
 
-
 namespace TSI_ERP_ETL.ETL.VdocumentDetail
 {
     public class VdocumentDetailExtract

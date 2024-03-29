@@ -4,11 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
-using TSI_ERP_ETL.ETL.Article;
 using TSI_ERP_ETL.ETL.ChiffreAffairesParClient;
-using TSI_ERP_ETL.ETL.Document;
-using TSI_ERP_ETL.ETL.VdocumentDetail;
-using TSI_ERP_ETL.ETL.Client;
 
 namespace TSI_ERP_ETL
 {
@@ -61,6 +57,8 @@ namespace TSI_ERP_ETL
                 // Call the ArticleProcess.ProcessArticleAsync method
                 //await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
 
+                // Call the ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync method
+                //await ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync(Token, erpApiClient);
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");
