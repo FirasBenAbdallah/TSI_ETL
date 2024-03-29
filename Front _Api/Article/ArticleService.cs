@@ -13,9 +13,16 @@ namespace TSI_ERP_ETL.Front_Api.Article
             _context = context;
         }
 
+        // Get all articles :
         public async Task<IEnumerable<ArticleETLModel>> GetArticlesAsync()
         {
             return await _context.Article.ToListAsync();
+        }
+
+        // Get articles by client code :
+        public async Task<IEnumerable<ArticleETLModel>> GetArticlesByCodeClientAsync(string CodeClient)
+        {
+            return await _context.Article.Where(x => x.CodeClient == CodeClient).ToListAsync();
         }
     }
 }

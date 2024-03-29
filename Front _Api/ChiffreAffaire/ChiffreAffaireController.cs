@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using TSI_ERP_ETL.Models.ETLModel;
+using TSI_ERP_ETL.Models.Requests;
 
 namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
 {

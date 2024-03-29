@@ -1,4 +1,4 @@
-﻿namespace TSI_ERP_ETL.Models.ETLModel
+﻿namespace TSI_ERP_ETL.Models.Requests
 {
     public record ChiffreAffaireRequest(
         string? StartDate,

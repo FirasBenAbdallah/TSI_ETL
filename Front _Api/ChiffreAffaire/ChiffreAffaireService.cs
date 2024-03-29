@@ -13,11 +13,13 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
             _context = context;
         }
 
+        // Get all chiffre d'affaire :
         public async Task<IEnumerable<DocumentDetailETLModel>> GetChiffreAffaireAsync()
         {
             return await _context.DocumentDetail.Where(x => x.DateFilter!.HasValue && x.DateFilter!.Value.Year > 1900).OrderBy(x => x.Quantite!.Value).ToListAsync();
         }
 
+        // Filter chiffre d'affaire by year :
         public async Task<IEnumerable<DocumentDetailETLModel>> FilterChiffreAffaireByYearAsync(int year)
         {
             //return await _context.DocumentDetail.Where(x => x.DateFilter.Year == year).ToListAsync();
@@ -25,6 +27,7 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffaire
 
         }
 
+        // Filter chiffre d'affaire by date range :
         public async Task<IEnumerable<DocumentDetailETLModel>> FilterChiffreAffaireByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _context.DocumentDetail
