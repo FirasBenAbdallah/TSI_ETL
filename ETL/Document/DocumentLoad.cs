@@ -27,15 +27,12 @@ namespace TSI_ERP_ETL.ETL.Document
                 // Parcourir les données fournies
                 foreach (var item in data)
                 {
-                    // Créer une instance de FournisseurETLModel à partir des données TierModel
-
+                    // Créer un nouvel objet DocumentETLModel
                     var document = new DocumentETLModel(item.Uid, item.MontantTtc);
 
                     // Ajouter l'entité nouvellement créée au DbSet du contexte
                     await _context.Document.AddAsync(document);
-
                 }
-
                 // Sauvegarder les changements dans la base de données
                 await _context.SaveChangesAsync();
             }
