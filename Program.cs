@@ -8,6 +8,7 @@ using TSI_ERP_ETL.ETL.Article;
 using TSI_ERP_ETL.ETL.ChiffreAffairesParClient;
 using TSI_ERP_ETL.ETL.Document;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
+using TSI_ERP_ETL.ETL.Client;
 
 namespace TSI_ERP_ETL
 {
@@ -19,7 +20,6 @@ namespace TSI_ERP_ETL
             ServiceProvider serviceProvider = Logger.Log();
             var logger = serviceProvider.GetService<ILogger<Program>>();
             //var fournisseurLogger = serviceProvider.GetService<ILogger<FournisseurProcess>>();
-            CreateHostBuilder(args).Build().Run();
 
             try
             {
@@ -48,16 +48,19 @@ namespace TSI_ERP_ETL
                 //await FournisseurProcess.ProcessFournisseurAsync(Token, erpApiClient, fournisseurLogger);
 
                 //await FournisseurProcess.ProcessFournisseurAsync();
-               // await DocumentProcess.ProcessDocumentAsync(Token, erpApiClient);
+
+                //await DocumentProcess.ProcessDocumentAsync(Token, erpApiClient);
 
                 // Call the VdocumentDetailProcess.ProcessVdocumentDetailAsync method
                 //await VdocumentDetailProcess.ProcessVdocumentDetailAsync(Token, erpApiClient);
 
-                // Call the ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync method
-                //await ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync(Token, erpApiClient);
+                // Call the ClientProcess.ProcessClientAsync method
+                await ClientProcess.ProcessClientAsync(erpApiClient);
 
                 // Call the ArticleProcess.ProcessArticleAsync method
-                //await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
+                await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
+
+                CreateHostBuilder(args).Build().Run();
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");
