@@ -29,6 +29,7 @@ namespace TSI_ERP_ETL
                     throw new ArgumentNullException(nameof(args));
                 }
                 var erpApiClient = ConfigurationBuild.InitializeErpApiClient();
+                CreateHostBuilder(args).Build().Run();
 
                 // Login URL from erpApiClient instance
                 string loginUrl = erpApiClient.LoginUrl!;
@@ -55,12 +56,11 @@ namespace TSI_ERP_ETL
                 //await VdocumentDetailProcess.ProcessVdocumentDetailAsync(Token, erpApiClient);
 
                 // Call the ClientProcess.ProcessClientAsync method
-                await ClientProcess.ProcessClientAsync(erpApiClient);
+                //await ClientProcess.ProcessClientAsync(erpApiClient);
 
                 // Call the ArticleProcess.ProcessArticleAsync method
-                await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
+                //await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
 
-                CreateHostBuilder(args).Build().Run();
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");

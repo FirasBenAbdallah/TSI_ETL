@@ -5,5 +5,6 @@ namespace TSI_ERP_ETL.Front_Api.Article
     public interface IArticleService
     {
         Task<IEnumerable<ArticleETLModel>> GetArticlesAsync();
+        Task<IEnumerable<ArticleETLModel>> GetArticlesByCodeClientAsync(string CodeClient);
     }
 }
