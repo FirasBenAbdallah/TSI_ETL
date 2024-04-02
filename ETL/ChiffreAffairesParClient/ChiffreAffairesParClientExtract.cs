@@ -14,7 +14,6 @@ namespace TSI_ERP_ETL.ETL.ChiffreAffairesParClient
     {
         public static async Task<List<ChiffreAffairesParClientModel>> ExtractChiffreAffairesParClientlAsync(string apiUrl, string token)
         {
-
             using var httpClient = new HttpClient();
 
             // Set the Authorization header with the token

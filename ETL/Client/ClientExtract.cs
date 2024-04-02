@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using TSI_ERP_ETL.Models;
 using TSI_ERP_ETL.Resource;
 

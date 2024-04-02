@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TSI_ERP_ETL.ETL.Tier.Clients
 {
-    internal class ClientsProcess
+    public class ClientsProcess
     {
     }
 }
