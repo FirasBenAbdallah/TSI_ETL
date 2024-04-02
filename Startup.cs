@@ -10,6 +10,7 @@ using TSI_ERP_ETL.Front_Api.ChiffreAffaire;
 using Microsoft.Extensions.DependencyInjection;
 using TSI_ERP_ETL.Front_Api.Article;
 using TSI_ERP_ETL.Front__Api.ChiffreAffairesParClient;
+using TSI_ERP_ETL.Front__Api.FactureClient;
 
 namespace TSI_ERP_ETL
 {
@@ -25,6 +26,7 @@ namespace TSI_ERP_ETL
             services.AddScoped<ChiffreAffaireService>();
             services.AddScoped<ChiffreAffaireParClientService>();
             services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<IFactureClientServices, FactureClientServices>();
             services.AddControllers();
             // Register the Swagger generator
             services.AddSwaggerGen(c =>
