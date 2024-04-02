@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
 using TSI_ERP_ETL.ETL.ChiffreAffairesParClient;
+using TSI_ERP_ETL.ETL.FactureClient;
 
 namespace TSI_ERP_ETL
 {
@@ -24,8 +25,8 @@ namespace TSI_ERP_ETL
                     logger!.LogError("Arguments are null.");
                     throw new ArgumentNullException(nameof(args));
                 }
+                //CreateHostBuilder(args).Build().Run();
                 var erpApiClient = ConfigurationBuild.InitializeErpApiClient();
-                CreateHostBuilder(args).Build().Run();
 
                 // Login URL from erpApiClient instance
                 string loginUrl = erpApiClient.LoginUrl!;
@@ -59,6 +60,9 @@ namespace TSI_ERP_ETL
 
                 // Call the ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync method
                 //await ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync(Token, erpApiClient);
+
+                // Call the FactureClientProcess.ProcessFactureClientAsync method
+                await FactureClientProcess.ProcessFactureClientAsync(erpApiClient);
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");

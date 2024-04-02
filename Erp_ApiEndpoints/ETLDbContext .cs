@@ -12,6 +12,7 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
         public DbSet<ClientModel> Client { get; set; }
         public DbSet<ClientETLModel> ClientETL { get; set; }
         public DbSet<FournisseurETLModel> Fournisseur { get; set; }
+        public DbSet<FactureClientModel> FactureClient { get; set; }
         //public DbSet<TierModel> Fournisseur { get; set; }
         public DbSet<ChiffreAffairesParClientETLModel> ChiffreAffairesParClient { get; set; }
 
@@ -27,6 +28,7 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
             modelBuilder.Entity<ChiffreAffairesParClientETLModel>().HasKey(f => f.UIDTier);
             modelBuilder.Entity<ClientModel>().HasKey(f => f.Code);
             modelBuilder.Entity<ClientETLModel>().HasKey(f => f.Uid);
+            modelBuilder.Entity<FactureClientModel>().HasKey(f => f.Id);
         }
     }
 }
