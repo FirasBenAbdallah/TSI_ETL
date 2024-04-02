@@ -6,6 +6,10 @@ using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.ETL;
 using TSI_ERP_ETL.ETL.ChiffreAffairesParClient;
 using TSI_ERP_ETL.ETL.FactureClient;
+using TSI_ERP_ETL.ETL.Document;
+using TSI_ERP_ETL.ETL.VdocumentDetail;
+using TSI_ERP_ETL.ETL.Client;
+using TSI_ERP_ETL.ETL.FicheFournisseur;
 
 namespace TSI_ERP_ETL
 {
@@ -63,6 +67,10 @@ namespace TSI_ERP_ETL
 
                 // Call the FactureClientProcess.ProcessFactureClientAsync method
                 await FactureClientProcess.ProcessFactureClientAsync(erpApiClient);
+
+                // Call the FicheFournisseurProcess.FicheFournisseurProcesslAsync method
+                await FicheFournisseurProcess.FicheFournisseurProcesslAsync(erpApiClient);
+                //CreateHostBuilder(args).Build().Run();
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");
