@@ -22,7 +22,6 @@ namespace TSI_ERP_ETL.ETL.FicheFournisseur
             {
                 // Open the connection
                 await connection.OpenAsync();
-                Console.WriteLine("hello");
                 // Define your SQL command
                 using SqlCommand command = new("SELECT Code,Nom,Debit,Credit FROM VFicheFournisseurFinal", connection);
                 using SqlDataReader reader = await command.ExecuteReaderAsync();

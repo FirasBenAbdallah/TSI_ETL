@@ -10,6 +10,7 @@ using TSI_ERP_ETL.Front_Api.ChiffreAffaire;
 using Microsoft.Extensions.DependencyInjection;
 using TSI_ERP_ETL.Front_Api.Article;
 using TSI_ERP_ETL.Front__Api.ChiffreAffairesParClient;
+using TSI_ERP_ETL.Front__Api.FicheFournisseur;
 
 namespace TSI_ERP_ETL
 {
@@ -22,6 +23,7 @@ namespace TSI_ERP_ETL
                 options.UseSqlServer(erpApiClient.DbConnection!));
 
             services.AddScoped<FournisseurService>();
+            services.AddScoped<FicheFournisseurService>();
             services.AddScoped<ChiffreAffaireService>();
             services.AddScoped<ChiffreAffaireParClientService>();
             services.AddScoped<IArticleService, ArticleService>();
