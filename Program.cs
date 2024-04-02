@@ -9,6 +9,7 @@ using TSI_ERP_ETL.ETL.ChiffreAffairesParClient;
 using TSI_ERP_ETL.ETL.Document;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
 using TSI_ERP_ETL.ETL.Client;
+using TSI_ERP_ETL.ETL.FicheFournisseur;
 
 namespace TSI_ERP_ETL
 {
@@ -55,12 +56,12 @@ namespace TSI_ERP_ETL
                 //await VdocumentDetailProcess.ProcessVdocumentDetailAsync(Token, erpApiClient);
 
                 // Call the ClientProcess.ProcessClientAsync method
-                await ClientProcess.ProcessClientAsync(erpApiClient);
+                //await ClientProcess.ProcessClientAsync(erpApiClient);
 
                 // Call the ArticleProcess.ProcessArticleAsync method
-                await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
-
-                CreateHostBuilder(args).Build().Run();
+                //await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
+                await FicheFournisseurProcess.FicheFournisseurProcesslAsync(erpApiClient);
+                //CreateHostBuilder(args).Build().Run();
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");
