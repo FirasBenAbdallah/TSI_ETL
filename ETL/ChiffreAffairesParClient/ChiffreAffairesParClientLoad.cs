@@ -19,13 +19,12 @@ namespace TSI_ERP_ETL.ETL.ChiffreAffairesParClient
             _context = context;
         }
         public async Task LoadChiffreAffairesParClientAsync(IEnumerable<ChiffreAffairesParClientModel> data)
-
         {
             try
             {
                 foreach (var item in data)
                 {
-                    var chiffreAffairesClient = new ChiffreAffairesParClientETLModel(item.UIDTier,item.Nom, item.MontantTtc);
+                    var chiffreAffairesClient = new ChiffreAffairesParClientETLModel(item.UIDTier, item.Nom, item.MontantTtc);
                     await _context.ChiffreAffairesParClient.AddAsync(chiffreAffairesClient);
                 }
                 await _context.SaveChangesAsync();
