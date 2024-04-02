@@ -1,6 +1,6 @@
 ﻿using TSI_ERP_ETL.Models;
 
-namespace TSI_ERP_ETL.Front__Api.FactureClient
+namespace TSI_ERP_ETL.Front_Api.FactureClient
 {
     public interface IFactureClientServices
     {

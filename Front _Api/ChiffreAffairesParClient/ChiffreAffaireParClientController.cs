@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TSI_ERP_ETL.Front_Api.Fournisseur;
 using TSI_ERP_ETL.Models.ETLModel;
 
-namespace TSI_ERP_ETL.Front__Api.ChiffreAffairesParClient
+namespace TSI_ERP_ETL.Front_Api.ChiffreAffairesParClient
 {
     [Route("api/[controller]")]
     [ApiController]
