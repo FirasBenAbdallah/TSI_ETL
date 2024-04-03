@@ -22,7 +22,7 @@ namespace TSI_ERP_ETL.ETL.FactureClient
             {
                 Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
 
-                await TableCreate.CreateTable(erpApiClient.DbConnection!, "FactureClient", "Id INT NOT NULL, NumDocument NVARCHAR(50), Realisation NVARCHAR(50), MontantTTC DECIMAL(18,2), Code NVARCHAR(50), Nom NVARCHAR(150), Libelle NVARCHAR(150)");
+                await TableCreate.CreateTable(erpApiClient.DbConnection!, "FactureClient", "Id INT NOT NULL, NumDocument NVARCHAR(50), Realisation NVARCHAR(50), MontantTTC DECIMAL(18,2), Code NVARCHAR(50), Nom NVARCHAR(150), Libelle NVARCHAR(150), MontantRecouvrement DECIMAL(18,2)");
             }
             else
             {
