@@ -9,19 +9,23 @@ namespace TSI_ERP_ETL.ETL.FactureClient
         {
             // Your SQL query.
             string query = @"
-                        SELECT 
-                            D.[NumDocument],
-                            D.[Realisation],
-                            D.[MontantTTC],
-                            F.[Code],
-                            F.[Nom],
-                            F.[Libelle]
-                        FROM 
-                            [Document] AS D
-                        INNER JOIN 
-                            [VFicheFournisseurFinal] AS F
-                        ON 
-                            D.[NumDocument] = SUBSTRING(F.[Libelle], CHARINDEX(':', F.[Libelle]) + 2, LEN(F.[Libelle]))";
+                            SELECT 
+                                D.[NumDocument],
+                                D.[MontantTTC],
+                                F.[Code],
+                                F.[Nom],
+                                F.[Libelle],
+                                R.[MontantRecouvrement]
+                            FROM 
+                                [Document] AS D
+                            INNER JOIN 
+                                [VFicheFournisseurFinal] AS F
+                            ON 
+                                D.[NumDocument] = SUBSTRING(F.[Libelle], CHARINDEX(':', F.[Libelle]) + 2, LEN(F.[Libelle]))
+                            INNER JOIN 
+                                [Recouvrement] AS R
+                            ON 
+                                D.[uid] = R.[Document]";
 
             List<FactureClientModel> factureClients = new();
             int id = 0;
@@ -37,17 +41,14 @@ namespace TSI_ERP_ETL.ETL.FactureClient
                 while (await reader.ReadAsync())
                 {
                     string numDocument = reader.IsDBNull(reader.GetOrdinal("NumDocument")) ? "" : reader.GetString(reader.GetOrdinal("NumDocument"));
-                    string realisation = reader.IsDBNull(reader.GetOrdinal("Realisation")) ? "" : reader.GetString(reader.GetOrdinal("Realisation"));
                     decimal montantTTC = reader.IsDBNull(reader.GetOrdinal("MontantTTC")) ? 0 : reader.GetDecimal(reader.GetOrdinal("MontantTTC"));
                     string code = reader.IsDBNull(reader.GetOrdinal("Code")) ? "" : reader.GetString(reader.GetOrdinal("Code"));
                     string nom = reader.IsDBNull(reader.GetOrdinal("Nom")) ? "" : reader.GetString(reader.GetOrdinal("Nom"));
                     string libelle = reader.IsDBNull(reader.GetOrdinal("Libelle")) ? "" : reader.GetString(reader.GetOrdinal("Libelle"));
+                    decimal montantRecouvrement = reader.IsDBNull(reader.GetOrdinal("MontantRecouvrement")) ? 0 : reader.GetDecimal(reader.GetOrdinal("MontantRecouvrement"));
                     id++;
 
-                    FactureClientModel factureClient = new(id, numDocument, realisation, montantTTC, code, nom, libelle);
-
-                    //SharedResource.CodeFactureClientList.Add(code);
-                    //SharedResource.NomFactureClientList.Add(nom);
+                    FactureClientModel factureClient = new(id, numDocument, montantTTC, code, nom, libelle, montantRecouvrement);
 
                     factureClients.Add(factureClient);
                 }

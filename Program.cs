@@ -71,6 +71,9 @@ namespace TSI_ERP_ETL
                 // Call the FicheFournisseurProcess.FicheFournisseurProcesslAsync method
                 //await FicheFournisseurProcess.FicheFournisseurProcesslAsync(erpApiClient);
 
+                // Call the FactureClientProcess.ProcessFactureClientAsync method
+                //await FactureClientProcess.ProcessFactureClientAsync(erpApiClient);
+
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");
                 logger!.LogInformation("ETL process completed successfully.");

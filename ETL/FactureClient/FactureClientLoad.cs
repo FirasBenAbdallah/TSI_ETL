@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TSI_ERP_ETL.Erp_ApiEndpoints;
 using TSI_ERP_ETL.Models;
+using TSI_ERP_ETL.Models.ETLModel;
 
 namespace TSI_ERP_ETL.ETL.FactureClient
 {
@@ -12,7 +13,7 @@ namespace TSI_ERP_ETL.ETL.FactureClient
         {
             _context = context;
         }
-        public async Task LoadFactureClientAsync(IEnumerable<FactureClientModel> data)
+        public async Task LoadFactureClientAsync(IEnumerable<FactureClientETLModel> data)
         {
             try
             {
@@ -20,7 +21,7 @@ namespace TSI_ERP_ETL.ETL.FactureClient
                 foreach (var item in data)
                 {
                     // Créer un nouvel objet ClientETLModel
-                    FactureClientModel factureClientModel = new(item.Id, item.NumDocument, item.Realisation, item.MontantTTC, item.Code, item.Nom, item.Libelle);
+                    FactureClientETLModel factureClientModel = new(item.Id, item.NumDocument, item.Realisation, item.MontantTTC, item.Code, item.Nom, item.Libelle, item.MontantRecouvrement);
 
                     // Ajouter l'objet à la table DocumentDetail
                     await _context.FactureClient.AddAsync(factureClientModel);
