@@ -18,5 +18,11 @@ namespace TSI_ERP_ETL.Front_Api.FactureClient
         {
             return await _context.FactureClient.ToListAsync();
         }
+
+        // Get articles by client code :
+        public async Task<IEnumerable<FactureClientModel>> GetFacturesByCodeClientAsync(string Code)
+        {
+            return await _context.FactureClient.Where(x => x.Code == Code).ToListAsync();
+        }
     }
 }

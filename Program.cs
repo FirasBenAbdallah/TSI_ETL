@@ -30,7 +30,6 @@ namespace TSI_ERP_ETL
                     throw new ArgumentNullException(nameof(args));
                 }
                 CreateHostBuilder(args).Build().Run();
-                //CreateHostBuilder(args).Build().Run();
                 var erpApiClient = ConfigurationBuild.InitializeErpApiClient();
 
                 // Login URL from erpApiClient instance
