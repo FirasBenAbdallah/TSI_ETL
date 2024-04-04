@@ -25,7 +25,7 @@ namespace TSI_ERP_ETL.Erp_ApiEndpoints
             //modelBuilder.Entity<DocumentCreateRequest>().HasKey(f => f.Devise);
             modelBuilder.Entity<DocumentETLModel>().HasKey(f => f.Devise);
             modelBuilder.Entity<DocumentDetailETLModel>().HasKey(f => f.Devise);
-            modelBuilder.Entity<ArticleETLModel>().HasKey(f => f.Uid);
+            modelBuilder.Entity<ArticleETLModel>().HasKey(f => f.Id);
             modelBuilder.Entity<ChiffreAffairesParClientETLModel>().HasKey(f => f.UIDTier);
             modelBuilder.Entity<ClientModel>().HasKey(f => f.Code);
             modelBuilder.Entity<ClientETLModel>().HasKey(f => f.Uid);

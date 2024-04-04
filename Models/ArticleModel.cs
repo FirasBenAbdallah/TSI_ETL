@@ -1,7 +1,15 @@
 ﻿namespace TSI_ERP_ETL.Models
 {
     public record ArticleModel(
-        Guid? UniteTemp,
+        int? Id,
+        string? FamilleArticle,
+        string? Libelle,
+        string? Uid,
+        Guid? Article,
+        DateTime? DateDocument,
+        double? Quantite,
+        decimal? MontantTTC
+        /*Guid? UniteTemp,
         double? Poid,
         double? PoidNet,
         double? PrixUnitaireVente,
@@ -29,16 +37,13 @@
         string? TypeArticle,
         string? CodeFournisseur,
         Guid? Gamme,
-        double? TauxRemiseVente,
-        Guid? FamilleArticle,
-        Guid? UnitePoids,
-        string? Statut,
-        string? Libelle,
-        Guid? NomenclatureEtude,
+        double? TauxRemiseVente,*/
+        /*Guid? UnitePoids,
+        string? Statut,*/
+        /*Guid? NomenclatureEtude,
         double? TauxFodec,
-        Guid? UniteDimension,
-        Guid Uid,
-        double? Largeur,
+        Guid? UniteDimension,*/
+        /*double? Largeur,
         Guid? NomenclatureFabrication,
         Guid? Collection,
         Guid? Emballage,
@@ -93,5 +98,5 @@
         Guid? FamilleImmobilisation,
         Guid? UniteAchat,
         Guid? UniteVente,
-        string? CodeClient);
+        string? CodeClient*/);
 }

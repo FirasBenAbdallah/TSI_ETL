@@ -24,5 +24,16 @@ namespace TSI_ERP_ETL.Front_Api.Article
         {
             return await _context.Article.Where(x => x.CodeClient == CodeClient).ToListAsync();
         }
+
+        // Filter chiffre d'affaire by date range :
+        public async Task<IEnumerable<ArticleETLModel>> FilterArticlesByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await _context.Article
+                .Where(x => x.DateDocument.HasValue &&
+                            x.DateDocument.Value >= startDate &&
+                            x.DateDocument.Value <= endDate)
+                .OrderBy(x => x.DateDocument!.Value)
+                .ToListAsync();
+        }
     }
 }
