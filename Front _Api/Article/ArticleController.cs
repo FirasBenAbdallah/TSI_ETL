@@ -55,5 +55,40 @@ namespace TSI_ERP_ETL.Front_Api.Article
                 return StatusCode(500, $"Une erreur s'est produite lors du traitement de la requête : {ex.Message}");
             }
         }
+
+        [HttpGet("GetPagedArticles")]
+        public async Task<ActionResult> GetPagedFacturesClientAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("PageNumber and PageSize must be greater than 0.");
+            }
+
+            var (articles, totalCount) = await _articleService.GetArticlesPagedAsync(pageNumber, pageSize);
+
+            var response = new
+            {
+                TotalCount = totalCount,
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                Data = articles
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet("GetDistinctNomClient")]
+        public async Task<ActionResult<IEnumerable<string?>>> GetDistinctNomClient()
+        {
+            var distinctNomClients = await _articleService.GetDistinctNomClientAsync();
+            return Ok(distinctNomClients);
+        }
+
+        [HttpGet("GetClientInfo")]
+        public async Task<ActionResult<IEnumerable<ClientInfoDTO>>> GetClientInfo()
+        {
+            var clientInfo = await _articleService.GetClientInfoAsync();
+            return Ok(clientInfo);
+        }
     }
 }

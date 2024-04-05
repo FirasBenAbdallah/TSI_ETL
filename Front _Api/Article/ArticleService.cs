@@ -19,6 +19,29 @@ namespace TSI_ERP_ETL.Front_Api.Article
             return await _context.Article.ToListAsync();
         }
 
+        // New service method to get distinct NomClient values:
+        public async Task<IEnumerable<string?>> GetDistinctNomClientAsync()
+        {
+            return await _context.Article
+                .Select(article => article.NomClient)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ClientInfoDTO>> GetClientInfoAsync()
+        {
+            return await _context.Article
+                .Select(article => new ClientInfoDTO
+                {
+                    NomClient = article.NomClient,
+                    CodeClient = article.CodeClient
+                })
+                .Distinct()
+                .OrderByDescending(T => T.NomClient)
+                .ToListAsync();
+        }
+
+
         // Get articles by client code :
         public async Task<IEnumerable<ArticleETLModel>> GetArticlesByCodeClientAsync(string CodeClient)
         {
@@ -34,6 +57,16 @@ namespace TSI_ERP_ETL.Front_Api.Article
                             x.DateDocument.Value <= endDate)
                 .OrderBy(x => x.DateDocument!.Value)
                 .ToListAsync();
+        }
+
+        public async Task<(IEnumerable<ArticleETLModel> data, int totalCount)> GetArticlesPagedAsync(int pageNumber, int pageSize)
+        {
+            var totalCount = await _context.Article.CountAsync();
+            var pagedData = await _context.Article
+                                        .Skip((pageNumber - 1) * pageSize)
+                                        .Take(pageSize)
+                                        .ToListAsync();
+            return (pagedData, totalCount);
         }
     }
 }

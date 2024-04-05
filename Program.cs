@@ -30,7 +30,7 @@ namespace TSI_ERP_ETL
                     logger!.LogError("Arguments are null.");
                     throw new ArgumentNullException(nameof(args));
                 }
-                //CreateHostBuilder(args).Build().Run();
+                CreateHostBuilder(args).Build().Run();
                 var erpApiClient = ConfigurationBuild.InitializeErpApiClient();
 
                 // Login URL from erpApiClient instance
@@ -57,10 +57,10 @@ namespace TSI_ERP_ETL
                 //await VdocumentDetailProcess.ProcessVdocumentDetailAsync(Token, erpApiClient);
 
                 // Call the ClientProcess.ProcessClientAsync method
-                await ClientProcess.ProcessClientAsync(erpApiClient);
+                //await ClientProcess.ProcessClientAsync(erpApiClient);
 
                 // Call the ArticleProcess.ProcessArticleAsync method
-                await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
+                //await ArticleProcess.ProcessArticleAsync(Token, erpApiClient);
 
                 // Call the ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync method
                 //await ChiffreAffairesParClientProcess.ProcessChiffreAffairesParClientAsync(Token, erpApiClient);
@@ -73,7 +73,7 @@ namespace TSI_ERP_ETL
 
                 // Call the FactureClientProcess.ProcessFactureClientAsync method
                 //await FactureClientProcess.ProcessFactureClientAsync(erpApiClient);
-                CreateHostBuilder(args).Build().Run();
+                //CreateHostBuilder(args).Build().Run();
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");
