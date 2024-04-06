@@ -24,12 +24,12 @@ namespace TSI_ERP_ETL.Front_Api.FicheFournisseur
         [HttpGet("GetPagedFicheFournisseurs")]
         public async Task<ActionResult> GetPagedFacturesClientAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
+            var (ficheFournisseurs, totalCount) = await _ficheFournisseurService.GetFicheFournisseursPagedAsync(pageNumber, pageSize);
+
             if (pageNumber < 1 || pageSize < 1)
             {
                 return BadRequest("PageNumber and PageSize must be greater than 0.");
             }
-
-            var (ficheFournisseurs, totalCount) = await _ficheFournisseurService.GetFicheFournisseursPagedAsync(pageNumber, pageSize);
 
             var response = new
             {
