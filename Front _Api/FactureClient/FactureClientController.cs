@@ -32,12 +32,12 @@ namespace TSI_ERP_ETL.Front_Api.FactureClient
         [HttpGet("GetPagedFacturesClient")]
         public async Task<ActionResult> GetPagedFacturesClientAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
+            var (facturesClients, totalCount) = await _factureClientServices.GetFacturesClientsPagedAsync(pageNumber, pageSize);
+            
             if (pageNumber < 1 || pageSize < 1)
             {
                 return BadRequest("PageNumber and PageSize must be greater than 0.");
             }
-
-            var (facturesClients, totalCount) = await _factureClientServices.GetFacturesClientsPagedAsync(pageNumber, pageSize);
 
             var response = new
             {
@@ -49,6 +49,5 @@ namespace TSI_ERP_ETL.Front_Api.FactureClient
 
             return Ok(response);
         }
-
     }
 }

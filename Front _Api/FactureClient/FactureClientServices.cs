@@ -32,6 +32,10 @@ namespace TSI_ERP_ETL.Front_Api.FactureClient
                                         .Skip((pageNumber - 1) * pageSize)
                                         .Take(pageSize)
                                         .ToListAsync();
+            if (pageNumber * pageSize > totalCount + pageSize)
+            {
+                return (pagedData, totalCount);
+            }
             return (pagedData, totalCount);
         }
     }
