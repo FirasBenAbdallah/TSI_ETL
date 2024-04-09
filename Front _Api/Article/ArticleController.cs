@@ -38,16 +38,26 @@ namespace TSI_ERP_ETL.Front_Api.Article
                 // Convertir les dates string en objets DateTime
                 var startDate = DateTime.ParseExact(request.StartDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 var endDate = DateTime.ParseExact(request.EndDate!, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var pageNumber = request.PageNumber;
+                var pageSize = request.PageSize;
 
                 // Appel de la méthode de service pour filtrer par plage de dates
-                var articles = await _articleService.FilterArticlesByDateRangeAsync(startDate, endDate);
+                var (articles, totalCount) = await _articleService.FilterArticlesByDateRangeAsync(startDate, endDate, pageNumber, pageSize);
 
                 if (articles == null || !articles.Any())
                 {
                     return NotFound($"Aucun article trouvé pour la plage de dates spécifiée.");
                 }
 
-                return Ok(articles);
+                var response = new
+                {
+                    TotalCount = totalCount,
+                    PageSize = pageSize,
+                    PageNumber = pageNumber,
+                    Data = articles
+                };
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

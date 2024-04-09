@@ -33,7 +33,7 @@ namespace TSI_ERP_ETL.ETL.Article
                     if (clientIndex < CodeClientList.Count)
                     {
                         // Créer un nouvel objet ArticleETLModel
-                        ArticleETLModel article = new(item.Id, item.FamilleArticle, item.Libelle, item.Uid, item.DateDocument, item.Quantite, item.MontantTTC, item.ChiffreAffaire, CodeClientList[clientIndex], NomClientList[clientIndex]);
+                        ArticleETLModel article = new(item.Id, item.FamilleArticle ?? "other", item.Libelle, item.Uid, item.DateDocument, item.Quantite, item.MontantTTC, item.ChiffreAffaire, CodeClientList[clientIndex], NomClientList[clientIndex]);
                         await _context.Article.AddAsync(article);
                     }
                 }

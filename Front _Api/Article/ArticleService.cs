@@ -49,16 +49,23 @@ namespace TSI_ERP_ETL.Front_Api.Article
         }
 
         // Filter chiffre d'affaire by date range :
-        public async Task<IEnumerable<ArticleETLModel>> FilterArticlesByDateRangeAsync(DateTime startDate, DateTime endDate)
+        public async Task<(IEnumerable<ArticleETLModel> data, int totalCount)> FilterArticlesByDateRangeAsync(DateTime startDate, DateTime endDate, int pageNumber, int pageSize)
         {
-            return await _context.Article
-                .Where(x => x.DateDocument.HasValue &&
-                            x.DateDocument.Value >= startDate &&
-                            x.DateDocument.Value <= endDate)
-                .OrderBy(x => x.DateDocument!.Value)
-                .ToListAsync();
+            var data = await _context.Article
+                    .Where(x => x.DateDocument.HasValue &&
+                                x.DateDocument.Value >= startDate &&
+                                x.DateDocument.Value <= endDate)
+                    .OrderBy(x => x.DateDocument!.Value)
+                    .ToListAsync();
+                    
+            int totalCount = data.Count;
+            data = data.Skip((pageNumber - 1) * pageSize)
+                       .Take(pageSize)
+                       .ToList();
+            return (data, totalCount);
         }
 
+        // Get articles paged :
         public async Task<(IEnumerable<ArticleETLModel> data, int totalCount)> GetArticlesPagedAsync(int pageNumber, int pageSize)
         {
             var totalCount = await _context.Article.CountAsync();
