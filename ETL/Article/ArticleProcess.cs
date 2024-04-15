@@ -32,7 +32,7 @@ namespace TSI_ERP_ETL.ETL.Article
                     {
                         Console.WriteLine("La table n'existe pas. Procéder à l'initialisation.");
 
-                        await TableCreate.CreateTable(erpApiClient.DbConnection!, "Article", "Uid UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, Code NVARCHAR(255), CodeClient NVARCHAR(50), NomClient NVARCHAR(150), CodeAbarres NVARCHAR(255), Libelle NVARCHAR(MAX), PrixUnitaireAchat DECIMAL(18, 2), TauxTva FLOAT, PrixUnitaireVente FLOAT, PrixVenteTtc DECIMAL(18, 2), FamilleArticle UNIQUEIDENTIFIER, CodeFournisseur NVARCHAR(255), Active BIT, Vendu BIT, Achete BIT");
+                        await TableCreate.CreateTable(erpApiClient.DbConnection!, "Article", "Id INT NOT NULL PRIMARY KEY, Uid NVARCHAR(255), DateDocument DATETIME, CodeClient NVARCHAR(50), NomClient NVARCHAR(150), Libelle NVARCHAR(MAX), FamilleArticle NVARCHAR(255), Quantite FLOAT, MontantTTC MONEY, ChiffreAffaire MONEY");
                     }
                     else
                     {
@@ -42,7 +42,7 @@ namespace TSI_ERP_ETL.ETL.Article
                         await TableTruncate.TruncateTable(erpApiClient.DbConnection!, "Article");
                     }
                     // Extraire les données à partir du point d'API
-                    var extractedData = await ArticleExtract.ExtractArticleAsync(apiUrl, token);
+                    var extractedData = await ArticleExtract.ExtractArticleAsync(erpApiClient.DbOlmiConnection!);
 
                     // Transformer les données avant de les charger dans la base de données
                     var transformedData = ArticleTransform.ArticlesTransform(extractedData);

@@ -17,7 +17,7 @@ namespace TSI_ERP_ETL.ETL.FicheFournisseur
 
             foreach (var item in data)
             {
-                decimal soldeItem = (decimal)(item.Credit ?? 0) - (decimal)(item.Debit ?? 0); // Explicitly cast to decimal
+                decimal soldeItem = (decimal)(item.Debit ?? 0) - (decimal)(item.Credit ?? 0); // Explicitly cast to decimal
                 id++;
                 //Console.WriteLine($"Solde for item {item.Code}: {soldeItem}");
 

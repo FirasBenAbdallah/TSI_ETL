@@ -25,5 +25,26 @@ namespace TSI_ERP_ETL.Front_Api.ChiffreAffairesParClient
             var chiffreAffaireClient = await _chiffreAffaireParClientService.GetChiffreAffairesParClientAsync();
             return Ok(chiffreAffaireClient);
         }
+
+        [HttpGet("GetPagedChiffreAffaireParClient")]
+        public async Task<ActionResult> GetPagedFacturesClientAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("PageNumber and PageSize must be greater than 0.");
+            }
+
+            var (chiffreAffaireParClient, totalCount) = await _chiffreAffaireParClientService.GetChiffreAffairesParClientPagedAsync(pageNumber, pageSize);
+
+            var response = new
+            {
+                TotalCount = totalCount,
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                Data = chiffreAffaireParClient
+            };
+
+            return Ok(response);
+        }
     }
 }

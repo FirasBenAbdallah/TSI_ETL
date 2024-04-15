@@ -16,5 +16,19 @@ namespace TSI_ERP_ETL.Front_Api.FicheFournisseur
         {
             return await _context.FicheFournisseur.ToListAsync();
         }
+
+        public async Task<(IEnumerable<FicheFournisseurETLModel> data, int totalCount)> GetFicheFournisseursPagedAsync(int pageNumber, int pageSize)
+        {
+            var totalCount = await _context.FicheFournisseur.CountAsync();
+            var pagedData = await _context.FicheFournisseur
+                                    .Skip((pageNumber - 1) * pageSize)
+                                    .Take(pageSize)
+                                    .ToListAsync();
+            if (pageNumber * pageSize > totalCount + pageSize)
+            {
+                return (pagedData, totalCount);
+            }
+            return (pagedData, totalCount);
+        }
     }
 }

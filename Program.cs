@@ -10,6 +10,7 @@ using TSI_ERP_ETL.ETL.Document;
 using TSI_ERP_ETL.ETL.VdocumentDetail;
 using TSI_ERP_ETL.ETL.Client;
 using TSI_ERP_ETL.ETL.FicheFournisseur;
+using TSI_ERP_ETL.ETL.Article;
 
 namespace TSI_ERP_ETL
 {
@@ -34,7 +35,6 @@ namespace TSI_ERP_ETL
 
                 // Login URL from erpApiClient instance
                 string loginUrl = erpApiClient.LoginUrl!;
-
                 // Call login method
                 string Token = await Login.GetTokenAsync(loginUrl);
 
@@ -73,6 +73,7 @@ namespace TSI_ERP_ETL
 
                 // Call the FactureClientProcess.ProcessFactureClientAsync method
                 //await FactureClientProcess.ProcessFactureClientAsync(erpApiClient);
+                //CreateHostBuilder(args).Build().Run();
 
                 // Log the process completion message for the ETL process
                 //Console.WriteLine("ETL process completed successfully.\n");

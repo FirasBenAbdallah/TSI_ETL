@@ -15,7 +15,7 @@ namespace TSI_ERP_ETL.ETL.Article
             _context = context;
         }
 
-        public async Task LoadArticlelAsync(IEnumerable<ArticleModel> data)
+        public async Task LoadArticlelAsync(IEnumerable<ArticleETLModel> data)
         {
             try
             {
@@ -33,8 +33,7 @@ namespace TSI_ERP_ETL.ETL.Article
                     if (clientIndex < CodeClientList.Count)
                     {
                         // Créer un nouvel objet ArticleETLModel
-                        ArticleETLModel article = new(item.Uid, item.Code, CodeClientList[clientIndex], NomClientList[clientIndex], item.CodeAbarres, item.Libelle, item.PrixUnitaireAchat, item.TauxTva, item.PrixUnitaireVente, item.PrixVenteTtc, item.FamilleArticle, item.CodeFournisseur, item.Active, item.Vendu, item.Achete);
-                        // Ajouter l'objet à la table DocumentDetail
+                        ArticleETLModel article = new(item.Id, item.FamilleArticle ?? "other", item.Libelle, item.Uid, item.DateDocument, item.Quantite, item.MontantTTC, item.ChiffreAffaire, CodeClientList[clientIndex], NomClientList[clientIndex]);
                         await _context.Article.AddAsync(article);
                     }
                 }

@@ -7,5 +7,6 @@ namespace TSI_ERP_ETL.Front_Api.FactureClient
     {
         Task<IEnumerable<FactureClientETLModel>> GetFacturesClientsAsync();
         Task<IEnumerable<FactureClientETLModel>> GetFacturesByCodeClientAsync(string Code);
+        Task<(IEnumerable<FactureClientETLModel> data, int totalCount)> GetFacturesClientsPagedAsync(int pageNumber, int pageSize);
     }
 }

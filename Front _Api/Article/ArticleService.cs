@@ -19,10 +19,61 @@ namespace TSI_ERP_ETL.Front_Api.Article
             return await _context.Article.ToListAsync();
         }
 
+        // New service method to get distinct NomClient values:
+        public async Task<IEnumerable<string?>> GetDistinctNomClientAsync()
+        {
+            return await _context.Article
+                .Select(article => article.NomClient)
+                .Distinct()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ClientInfoDTO>> GetClientInfoAsync()
+        {
+            return await _context.Article
+                .Select(article => new ClientInfoDTO
+                {
+                    NomClient = article.NomClient,
+                    CodeClient = article.CodeClient
+                })
+                .Distinct()
+                .OrderByDescending(T => T.NomClient)
+                .ToListAsync();
+        }
+
+
         // Get articles by client code :
         public async Task<IEnumerable<ArticleETLModel>> GetArticlesByCodeClientAsync(string CodeClient)
         {
             return await _context.Article.Where(x => x.CodeClient == CodeClient).ToListAsync();
+        }
+
+        // Filter chiffre d'affaire by date range :
+        public async Task<(IEnumerable<ArticleETLModel> data, int totalCount)> FilterArticlesByDateRangeAsync(DateTime startDate, DateTime endDate, int pageNumber, int pageSize)
+        {
+            var data = await _context.Article
+                    .Where(x => x.DateDocument.HasValue &&
+                                x.DateDocument.Value >= startDate &&
+                                x.DateDocument.Value <= endDate)
+                    .OrderBy(x => x.DateDocument!.Value)
+                    .ToListAsync();
+                    
+            int totalCount = data.Count;
+            data = data.Skip((pageNumber - 1) * pageSize)
+                       .Take(pageSize)
+                       .ToList();
+            return (data, totalCount);
+        }
+
+        // Get articles paged :
+        public async Task<(IEnumerable<ArticleETLModel> data, int totalCount)> GetArticlesPagedAsync(int pageNumber, int pageSize)
+        {
+            var totalCount = await _context.Article.CountAsync();
+            var pagedData = await _context.Article
+                                        .Skip((pageNumber - 1) * pageSize)
+                                        .Take(pageSize)
+                                        .ToListAsync();
+            return (pagedData, totalCount);
         }
     }
 }
