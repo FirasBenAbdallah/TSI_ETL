@@ -44,9 +44,13 @@ namespace TSI_ERP_ETL.Front_Api.Article
                 // Appel de la méthode de service pour filtrer par plage de dates
                 var (articles, totalCount) = await _articleService.FilterArticlesByDateRangeAsync(startDate, endDate, pageNumber, pageSize);
 
-                if (articles == null || !articles.Any())
+                /*if (articles == null || !articles.Any())
                 {
                     return NotFound($"Aucun article trouvé pour la plage de dates spécifiée.");
+                }*/
+                if (pageNumber < 1 || pageSize < 1)
+                {
+                    return BadRequest("PageNumber and PageSize must be greater than 0.");
                 }
 
                 var response = new
@@ -67,13 +71,13 @@ namespace TSI_ERP_ETL.Front_Api.Article
         }
 
         [HttpGet("GetPagedArticles")]
-        public async Task<ActionResult> GetPagedFacturesClientAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public async Task<ActionResult> GetPagedArticlesAsync([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             if (pageNumber < 1 || pageSize < 1)
             {
                 return BadRequest("PageNumber and PageSize must be greater than 0.");
             }
-
+            
             var (articles, totalCount) = await _articleService.GetArticlesPagedAsync(pageNumber, pageSize);
 
             var response = new
